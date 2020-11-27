@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "552741008540",
+    "firebase_url": "https://student-consultant-46597.firebaseio.com",
+    "project_id": "student-consultant-46597",
+    "storage_bucket": "student-consultant-46597.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552741008540:android:0cb0d55b875e60926b6959",
+        "android_client_info": {
+          "package_name": "com.a1techandroid.studentconsultant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "552741008540-8cbp07d882fce9fj0queq7mkm1794ub1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABz8E7H2ImLJ17sx7N3rA9Eaqah9z1ylw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "552741008540-8cbp07d882fce9fj0queq7mkm1794ub1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

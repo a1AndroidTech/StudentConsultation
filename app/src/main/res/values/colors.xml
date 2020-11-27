@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="tab_background">#ebebec</color>
+    <color name="theme_color">#552dc6</color>
+    <color name="bg_cell">#ffffff</color>
+    <color name="gray_color">#8D8D8E</color>
+    <color name="bg">#f8f8f8</color>
+    <color name="color2">#7f4782</color>
+    <color name="color3">#5a3921</color>
+    <color name="color4">#733fc1</color>
+    <color name="color5">#553c8b</color>
+    <color name="color6">#39375b</color>
+    <color name="color7">#003f5c</color>
+    <color name="color8">#36b5b0</color>
+    <color name="color9">#3fc5f0</color>
+    <color name="color10">#550a46</color>
+
+    <color name="color15">#8e4782</color><!--#663fdf-->
+    <color name="color16">#6B4000</color>
+    <color name="color17">#844fd2</color>
+    <color name="color18">#664d8b</color>
+    <color name="color19">#49486c</color>
+    <color name="color20">#114f5c</color>
+    <color name="color21">#47c5b0</color>
+    <color name="color22">#4fd5f0</color>
+    <color name="color23">#661b57</color>
+
+    <color name="inProgress">#ac92ec</color>
+    <color name="pending">#fdd835</color>
+    <color name="done">#37bc9b</color>
+    <color name="archived">#aab2bd</color>
+    <color name="green">#615E51</color>
+</resources>
