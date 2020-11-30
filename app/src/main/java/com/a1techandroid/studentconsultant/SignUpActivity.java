@@ -7,17 +7,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.a1techandroid.studentconsultant.Models.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity {
     EditText name, email, phone, password;
@@ -26,14 +30,21 @@ public class SignUpActivity extends AppCompatActivity {
     boolean isNameValid, isEmailValid, isPhoneValid, isPasswordValid;
     TextInputLayout nameError, emailError, phoneError, passError;
     FirebaseAuth auth;
+    DatabaseReference reference;
+    FirebaseDatabase rootNode;
     ProgressBar progressBar;
+    RadioGroup rg;
+    int userType = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         auth=FirebaseAuth.getInstance();
+        rootNode=FirebaseDatabase.getInstance();
+        reference=rootNode.getReference("SC");
         initViews();
         setUpClicks();
+        radioButnListner();
     }
 
     public void initViews(){
@@ -48,6 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
         phoneError = (TextInputLayout) findViewById(R.id.phoneError);
         passError = (TextInputLayout) findViewById(R.id.passError);
         progressBar=findViewById(R.id.progressBar);
+        rg = findViewById(R.id.radioGroup1);
     }
 
     public void setUpClicks(){
@@ -112,13 +124,13 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         if (isNameValid && isEmailValid && isPhoneValid && isPasswordValid) {
-            createUserOnServer(email.getText().toString(), password.getText().toString());
+            createUserOnServer(email.getText().toString(), password.getText().toString(), phone.getText().toString(),name.getText().toString());
             Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    public void createUserOnServer(String email, String password){
+    public void createUserOnServer(String email, String password, String phone, String name){
         progressBar.setVisibility(View.VISIBLE);
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
@@ -130,11 +142,36 @@ public class SignUpActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             progressBar.setVisibility(View.GONE);
+                            UserModel user = new UserModel(name, phone, email, password, userType);
+                            String uId = auth.getCurrentUser().getUid();
+                            user.setUser_id(uId);
+                            reference.child("User").child(uId).setValue(user);
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                             finish();
                         }
                     }
                 });
+    }
+
+
+    public void radioButnListner()
+    {
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.student:
+                        userType = 1;
+                        Toast.makeText(SignUpActivity.this, ""+userType, Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.consultant:
+                        userType = 2;
+                        Toast.makeText(SignUpActivity.this, ""+userType, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
     }
 
 }

@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/gradient"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Your Qualification"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="280dp"
+            android:layout_weight="1"
+            android:elevation="12dp"
+            app:cardCornerRadius="12dp"
+            android:layout_marginRight="20sp"
+            android:backgroundTint="@color/color17"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="SSC"
+                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Board/ Univeristy"
+                android:id="@+id/sscBoard"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+
+                /><EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Subjects"
+                android:id="@+id/sscSubj"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                /><EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Grade/ Division"
+                android:id="@+id/sscGrade"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                /><EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Passing Year"
+                android:id="@+id/sscPassingYear"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:layout_weight="1"
+            android:elevation="12dp"
+            app:cardCornerRadius="12dp"
+            android:backgroundTint="@color/color6"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="HSSC"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Board/ Univeristy"
+                    android:id="@+id/hsscBoard"
+                    android:textColor="@color/black"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+
+                    /><EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Subjects"
+                android:id="@+id/hsscSubj"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                /><EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Grade/ Division"
+                android:id="@+id/hsscGrade"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                /><EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Passing Year"
+                android:id="@+id/hsscPassingYear"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="280dp"
+            android:layout_weight="1"
+            android:elevation="12dp"
+            app:cardCornerRadius="12dp"
+            android:layout_marginRight="20sp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/color3"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="BA"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Board/ Univeristy"
+                    android:id="@+id/baBoard"
+                    android:textColor="@color/black"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+
+                    /><EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Subjects"
+                android:id="@+id/baSubj"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                /><EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Grade/ Division"
+                android:id="@+id/baGrade"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                /><EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Passing Year"
+                android:id="@+id/baPassingYear"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="310dp"
+            android:layout_weight="1"
+            android:elevation="12dp"
+            app:cardCornerRadius="12dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/color8"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="Masters"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Board/ Univeristy"
+                    android:id="@+id/maBoard"
+                    android:textColor="@color/black"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+
+                    /><EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Subjects"
+                android:id="@+id/maSubj"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                /><EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Grade/ Division"
+                android:id="@+id/maGrade"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                /><EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Passing Year"
+                android:id="@+id/maPassingYear"
+                android:textColor="@color/black"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:elevation="12dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="12dp"
+        android:backgroundTint="@color/green"
+        android:id="@+id/nextButton"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/color6"
+            />
+    </androidx.cardview.widget.CardView>
+
+
+
+</LinearLayout>

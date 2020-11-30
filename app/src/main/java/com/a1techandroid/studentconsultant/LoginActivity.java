@@ -2,22 +2,30 @@ package com.a1techandroid.studentconsultant;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.a1techandroid.studentconsultant.Models.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
     EditText email, password;
@@ -26,14 +34,19 @@ public class LoginActivity extends AppCompatActivity {
     boolean isEmailValid, isPasswordValid;
     TextInputLayout emailError, passError;
     FirebaseAuth auth;
+    DatabaseReference reference;
     ProgressBar progressBar;
+    RadioGroup rg;
+    int userType = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         auth=FirebaseAuth.getInstance();
+        reference = FirebaseDatabase.getInstance().getReference("User");
         setContentView(R.layout.activity_login);
         initViews();
         setUpClicks();
+        radioButtonListner();
     }
 
     public void initViews(){
@@ -45,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         passError = (TextInputLayout) findViewById(R.id.passError);
         ForgotPassword= findViewById(R.id.forgetPassword);
         progressBar=findViewById(R.id.progressBar);
+        rg = findViewById(R.id.radioGroup1);
+
     }
 
     public void setUpClicks(){
@@ -100,7 +115,6 @@ public class LoginActivity extends AppCompatActivity {
 
         if (isEmailValid && isPasswordValid) {
             loginUSer(email.getText().toString(), password.getText().toString());
-            Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -128,6 +142,25 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    public void radioButtonListner(){
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId){
+                    case R.id.student:
+                        // do operations specific to this selection
+                        userType = 1;
+                        Toast.makeText(LoginActivity.this, ""+userType, Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.consultant:
+                        // do operations specific to this selection
+                        userType = 2;
+                        Toast.makeText(LoginActivity.this, ""+userType, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+    }
 
 }
 

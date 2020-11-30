@@ -20,6 +20,8 @@
         <activity android:name=".SignUpActivity"/>
         <activity android:name=".MainActivity"/>
         <activity android:name=".PWresetActivity"/>
+        <activity android:name=".StudentProfileActivity"/>
+    <activity android:name=".StudentQualificationActivity"/>
 
     </application>
 
