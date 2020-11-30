@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +17,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.a1techandroid.studentconsultant.Models.FragmentHome;
+import com.a1techandroid.studentconsultant.Models.FragmentUniveristies;
+import com.a1techandroid.studentconsultant.Models.SettingFragment;
 import com.a1techandroid.studentconsultant.Models.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initViews();
         setUpAnimatedBar();
+        FragmentHome home= new FragmentHome();
+        replaceFragment(home);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -83,14 +90,17 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (newTab.getId()) {
                     case R.id.home:
-
+                        FragmentHome home= new FragmentHome();
+                        replaceFragment(home);
                         break;
                     case R.id.book:
+                        FragmentUniveristies fragmentUniveristies= new FragmentUniveristies();
+                        replaceFragment(fragmentUniveristies);
                         break;
                     case R.id.account:
-                        FirebaseAuth.getInstance().signOut();
-                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                        finish();
+                        SettingFragment settingFragment = new SettingFragment();
+                        replaceFragment(settingFragment);
+
                         break;
                 }
             }
@@ -99,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         moreOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, StudentProfileActivity.class));
+                startActivity(new Intent(MainActivity.this, ConsultantProfile.class));
             }
         });
     }
@@ -155,5 +165,14 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.contentFrame, fragment);
+        fragmentTransaction.addToBackStack(fragment.toString());
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.commit();
+    }
 
 }
