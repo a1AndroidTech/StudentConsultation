@@ -17,9 +17,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.a1techandroid.studentconsultant.Models.FragmentHome;
-import com.a1techandroid.studentconsultant.Models.FragmentUniveristies;
-import com.a1techandroid.studentconsultant.Models.SettingFragment;
+import com.a1techandroid.studentconsultant.Fragments.FragmentHome;
+import com.a1techandroid.studentconsultant.Fragments.FragmentUniveristies;
+import com.a1techandroid.studentconsultant.Fragments.SettingFragment;
 import com.a1techandroid.studentconsultant.Models.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;

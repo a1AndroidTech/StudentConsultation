@@ -1,4 +1,4 @@
-package com.a1techandroid.studentconsultant.Models;
+package com.a1techandroid.studentconsultant.Fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
