@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.a1techandroid.studentconsultant.Fragments.AttachmentFragment;
+import com.a1techandroid.studentconsultant.MainActivity;
 import com.a1techandroid.studentconsultant.Models.Scholorship_model;
 import com.a1techandroid.studentconsultant.Models.Student_Model;
 import com.a1techandroid.studentconsultant.R;
@@ -39,7 +44,7 @@ public class Scholorship_adapter extends BaseAdapter {
     }
 
     class ViewHolder{
-        TextView name;
+        TextView name, time, uni;
     }
 
     @Override
@@ -49,13 +54,31 @@ public class Scholorship_adapter extends BaseAdapter {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.scholorship_item, null);
             holder = new ViewHolder();
-            holder.name = convertView.findViewById(R.id.text);
+            holder.name = convertView.findViewById(R.id.nameS);
+            holder.time = convertView.findViewById(R.id.program);
+            holder.uni = convertView.findViewById(R.id.timePerios);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-//        final String name = list.get(position);
+        final Scholorship_model model = list.get(position);
 
+        holder.name.setText(model.getSchName());
+        holder.time.setText(model.getEndDate());
+        holder.uni.setText(model.getUniName());
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AttachmentFragment fragment = new AttachmentFragment();
+                FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.contentFrame, fragment);
+                fragmentTransaction.addToBackStack(fragment.toString());
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.commit();
+            }
+        });
         return convertView;
     }
 

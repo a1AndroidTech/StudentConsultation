@@ -38,7 +38,7 @@ public class StudentListAdapter extends BaseAdapter {
     }
 
     class ViewHolder{
-        TextView name;
+        TextView name, applyFor, uni, ielts;
     }
 
     @Override
@@ -48,12 +48,20 @@ public class StudentListAdapter extends BaseAdapter {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = mInflater.inflate(R.layout.student_item, null);
             holder = new ViewHolder();
-            holder.name = convertView.findViewById(R.id.text);
+            holder.name = convertView.findViewById(R.id.nameS);
+            holder.applyFor = convertView.findViewById(R.id.program);
+            holder.uni = convertView.findViewById(R.id.timePerios);
+            holder.ielts = convertView.findViewById(R.id.ielts);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-//        final String name = list.get(position);
+        final Student_Model model = studentList.get(position);
+
+        holder.name.setText(model.getName());
+        holder.applyFor.setText(model.getApplyFor());
+        holder.uni.setText(model.getUniName());
+        holder.ielts.setText(model.getIeltsScore());
 
         return convertView;
     }

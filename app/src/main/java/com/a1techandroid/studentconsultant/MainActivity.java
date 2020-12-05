@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.a1techandroid.studentconsultant.Fragments.FragmentHome;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     DatabaseReference reference;
     ImageView moreOption;
+    public static TextView title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,16 +58,16 @@ public class MainActivity extends AppCompatActivity {
                     UserModel userModal = ds.getValue(UserModel.class);
                     SharedPrefrences.saveUSer(userModal, getApplicationContext());
                     Log.i("userModel", ""+userModal.getUser_type());
-                    if(userModal.getUser_id().equals(auth.getCurrentUser().getUid())) {
-                        if (userModal.getUser_type() == 1){
-                            Toast.makeText(MainActivity.this, "student", Toast.LENGTH_SHORT).show();
-                            reference.removeEventListener(valueEventListener);
-                        }else {
-                            Toast.makeText(MainActivity.this, "Consultant", Toast.LENGTH_SHORT).show();
-                        }
-
-                        reference.removeEventListener(valueEventListener);
-                    }
+//                    if(userModal.getUser_id().equals(auth.getCurrentUser().getUid())) {
+//                        if (userModal.getUser_type() == 1){
+//                            Toast.makeText(MainActivity.this, "student", Toast.LENGTH_SHORT).show();
+//                            reference.removeEventListener(valueEventListener);
+//                        }else {
+//                            Toast.makeText(MainActivity.this, "Consultant", Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                        reference.removeEventListener(valueEventListener);
+//                    }
                 }
             }
 
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         animatedBottomBar = findViewById(R.id.animatedBottomBar);
         moreOption = findViewById(R.id.moreOption);
+        title = findViewById(R.id.title);
     }
 
     public void setUpAnimatedBar(){
@@ -92,15 +95,17 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.home:
                         FragmentHome home= new FragmentHome();
                         replaceFragment(home);
+                        title.setText("Home");
                         break;
                     case R.id.book:
                         FragmentUniveristies fragmentUniveristies= new FragmentUniveristies();
                         replaceFragment(fragmentUniveristies);
+                        title.setText("Upload Documents");
                         break;
                     case R.id.account:
                         SettingFragment settingFragment = new SettingFragment();
                         replaceFragment(settingFragment);
-
+                        title.setText("Setting");
                         break;
                 }
             }
@@ -109,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         moreOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ConsultantProfile.class));
+                startActivity(new Intent(MainActivity.this, StudentProfileActivity.class));
             }
         });
     }

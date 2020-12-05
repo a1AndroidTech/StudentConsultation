@@ -1,5 +1,6 @@
 package com.a1techandroid.studentconsultant.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.a1techandroid.studentconsultant.Adapters.SettingListAdapter;
+import com.a1techandroid.studentconsultant.Adapters.Scholorship_adapter;
 import com.a1techandroid.studentconsultant.Adapters.Univeristy_adapter;
 import com.a1techandroid.studentconsultant.MainActivity;
+import com.a1techandroid.studentconsultant.Models.Scholorship_model;
 import com.a1techandroid.studentconsultant.Models.Uni_Model;
 import com.a1techandroid.studentconsultant.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,56 +29,49 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class FragmentUniveristies extends Fragment {
+public class ScholorshipFragment extends Fragment {
     ListView listView;
-    Univeristy_adapter settingListAdapter;
-    ArrayList<Uni_Model> listofItems;
+    Scholorship_adapter settingListAdapter;
+    ArrayList<Scholorship_model> listofItems;
     DatabaseReference reference;
     FirebaseDatabase rootNode;
+    Scholorship_model scholorship_model;
     Uni_Model uni_model;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_univeristy, container, false);
         rootNode=FirebaseDatabase.getInstance();
-        reference=rootNode.getReference("Univeristies");
+        Intent i = getActivity().getIntent();
+        Bundle bundle = getArguments();
+        uni_model= (Uni_Model) bundle.getSerializable("UniKey");
+        reference=rootNode.getReference("Scholorship");
         initView(view);
-        addUni();
-//        readValueFromFireBase();
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        MainActivity.title.setText("Scholorships");
+//        addUni();
         readValueFromFireBase();
+        return view;
     }
 
     public void initView(View view){
         listView=view.findViewById(R.id.listView);
         listofItems= new ArrayList<>();
-//        listofItems.add(new Uni_Model("Berlin School of Business and Innovation","Germany", "12-03-2021"));
-//        listofItems.add(new Uni_Model("IUBH University of Applied Sciences","Germany", "10-01-2021"));
-//        listofItems.add(new Uni_Model("Lancaster University Leipzign","Germany", "12-12-2020"));
-//        listofItems.add(new Uni_Model("University of Applied Sciences Europe","England", "03-03-2021"));
-//        listofItems.add(new Uni_Model("Arden University Berlin","Germany", "12-07-2021"));
-//        listofItems.add(new Uni_Model("Georg-August-Universität Göttingen","Spain", "01-03-2021"));
-//        listofItems.add(new Uni_Model("Berlin School of Business and Innovation","Germany", "12-03-2021"));
-//        listofItems.add(new Uni_Model("IUBH University of Applied Sciences","Germany", "10-01-2021"));
-//        listofItems.add(new Uni_Model("Lancaster University Leipzign","Germany", "12-12-2020"));
-//
-//        settingListAdapter = new Univeristy_adapter(getActivity(), listofItems);
-//        listView.setAdapter(settingListAdapter);
-//        settingListAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MainActivity.title.setText("Univeristies");
+        readValueFromFireBase();
     }
 
     public void addUni(){
+//        scholorship_model = new Scholorship_model("Eiffel Excellence Scholarship Programme", "22-10-2021","Berlin School of Business and Innovation");
+
         for (int i=0; i<listofItems.size(); i++){
-            uni_model = listofItems.get(i);
-            String key = reference.push().getKey();
-            reference.child(key)
-                    .setValue(uni_model).addOnCompleteListener(new OnCompleteListener<Void>() {
+            scholorship_model = listofItems.get(i);
+            reference.child(scholorship_model.getUniName()).child(reference.push().getKey().toString())
+                    .setValue(scholorship_model).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
 
@@ -91,17 +86,14 @@ public class FragmentUniveristies extends Fragment {
 
 
     }
-
-
-
     public void readValueFromFireBase(){
-        reference.addChildEventListener(new ChildEventListener() {
+        reference.child(uni_model.getUniName()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Uni_Model uni_model=snapshot.getValue(Uni_Model.class);
+                Scholorship_model uni_model=snapshot.getValue(Scholorship_model.class);
 //                officers.setUid(snapshot.getKey());
                 listofItems.add(uni_model);
-                settingListAdapter = new Univeristy_adapter(getActivity(), listofItems);
+                settingListAdapter = new Scholorship_adapter(getActivity(), listofItems);
                 listView.setAdapter(settingListAdapter);
                 settingListAdapter.notifyDataSetChanged();
             }
@@ -114,10 +106,10 @@ public class FragmentUniveristies extends Fragment {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                Uni_Model officers=snapshot.getValue(Uni_Model.class);
+                Scholorship_model officers=snapshot.getValue(Scholorship_model.class);
 //                officers.setUid(snapshot.getKey());
                 listofItems.remove(officers);
-                settingListAdapter = new Univeristy_adapter(getActivity(), listofItems);
+                settingListAdapter = new Scholorship_adapter(getActivity(), listofItems);
                 listView.setAdapter(settingListAdapter);
                 settingListAdapter.notifyDataSetChanged();
             }

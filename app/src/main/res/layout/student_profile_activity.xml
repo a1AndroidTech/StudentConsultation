@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/gradient">
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,18 +11,31 @@
         android:orientation="vertical"
         >
 
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:background="@android:color/holo_orange_dark"
 
             ><TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Complete Your Profile for Application"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:layout_centerInParent="true"        />
         </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            ></LinearLayout>
+
+
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -45,6 +58,7 @@
                 android:singleLine="true"
                 android:paddingLeft="5dp"
                 android:enabled="false"
+                android:textColorHint="@color/black"
                 android:textColor="@color/black"
 
                 />
@@ -159,6 +173,19 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            android:elevation="15dp"
+            android:layout_marginRight="20sp"
+            android:layout_marginLeft="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="#522020"
+            android:id="@+id/scorCard"
+            >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -170,11 +197,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ielts Score"
+                android:text="IELTS SCORES"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 />
 
             <LinearLayout
@@ -188,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Reading"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
                     />
 
@@ -198,7 +225,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="20sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     />
             </LinearLayout>
 
@@ -213,7 +240,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Writing"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
                     />
 
@@ -223,7 +250,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="20sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     />
             </LinearLayout>
 
@@ -238,7 +265,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Speaking"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
                     />
 
@@ -248,7 +275,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="20sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     />
             </LinearLayout>
 
@@ -263,7 +290,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Listening"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
                     />
 
@@ -273,31 +300,38 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="20sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     />
             </LinearLayout>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:elevation="12dp"
-                android:layout_marginTop="20dp"
-                app:cardCornerRadius="12dp"
-                android:backgroundTint="@color/green"
-                android:id="@+id/nextButton"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Next"
-                    android:layout_gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="@color/color6"
-                    />
-            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:elevation="12dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            app:cardCornerRadius="12dp"
+            android:backgroundTint="@android:color/holo_orange_dark"
+            android:id="@+id/nextButton"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                />
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 

@@ -30,11 +30,12 @@
         xmlns:Card_View="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="15dp"
         android:padding="10dp"
         android:layout_centerInParent="true"
-        Card_View:cardCornerRadius="5dp"
-        Card_View:cardElevation="5dp">
+        Card_View:cardCornerRadius="10dp"
+        Card_View:cardElevation="10dp"
+        android:backgroundTint="#002147">
 
         <LinearLayout
             android:layout_width="match_parent"
