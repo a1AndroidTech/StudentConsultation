@@ -64,6 +64,9 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    // circle image
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
 
 
 }

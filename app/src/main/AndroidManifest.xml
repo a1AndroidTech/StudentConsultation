@@ -24,6 +24,7 @@
         <activity android:name=".PWresetActivity"/>
         <activity android:name=".StudentProfileActivity"/>
     <activity android:name=".StudentQualificationActivity"/>
+    <activity android:name=".StudentViewProfile"/>
     <activity android:name=".ConsultantProfile"/>
         <activity android:name=".AdminActivity">
 

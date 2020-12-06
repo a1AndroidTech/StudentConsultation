@@ -61,7 +61,7 @@ public class ScholorshipFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        MainActivity.title.setText("Univeristies");
+        MainActivity.title.setText("Scholorships");
         readValueFromFireBase();
     }
 

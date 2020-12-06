@@ -49,7 +49,7 @@ public class FragmentUniveristies extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        MainActivity.title.setText("Scholorships");
+        MainActivity.title.setText("Univeristies");
         readValueFromFireBase();
     }
 
