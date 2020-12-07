@@ -2,11 +2,13 @@ package com.a1techandroid.studentconsultant;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,18 +41,20 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference reference;
     ImageView moreOption;
     public static TextView title;
+    String isNewUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        isNewUser= getIntent().getStringExtra("idNewUSer");
         auth=FirebaseAuth.getInstance();
         reference= FirebaseDatabase.getInstance().getReference("SC");
         DatabaseReference ref = reference.child("User");
-        setContentView(R.layout.activity_main);
         initViews();
         setUpAnimatedBar();
         FragmentHome home= new FragmentHome();
         replaceFragment(home);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".","")).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Toast.makeText(MainActivity.this, "success", Toast.LENGTH_SHORT).show();
@@ -76,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "canceled", Toast.LENGTH_SHORT).show();
             }
         });
+
+        if (isNewUser.equals("yes")){
+            alertProfile();
+        }
 
     }
 
@@ -114,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         moreOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, StudentViewProfile.class));
+                startActivity(new Intent(MainActivity.this, StudentProfileActivity.class));
             }
         });
     }
@@ -178,6 +186,32 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(fragment.toString());
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
+    }
+
+    public void alertProfile(){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+        builder1.setMessage("Please Complete Profile");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        startActivity(new Intent(getApplicationContext(), StudentProfileActivity.class));
+                        dialog.cancel();
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
 }

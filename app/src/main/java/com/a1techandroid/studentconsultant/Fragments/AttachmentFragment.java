@@ -1,5 +1,6 @@
 package com.a1techandroid.studentconsultant.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -10,38 +11,69 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.a1techandroid.studentconsultant.MainActivity;
+import com.a1techandroid.studentconsultant.Models.AttachmentModel;
 import com.a1techandroid.studentconsultant.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.smarteist.autoimageslider.SliderView;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 
 import static android.app.Activity.RESULT_OK;
 
 public class AttachmentFragment extends Fragment {
-    SliderView sliderView;
-    ImageView attaach;
-    EditText path1, path2, path3, path4;
+   CardView passport, iD, ssc, hssc, ba, ma, submit;
+
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mRefe;
+    private FirebaseAuth mAuth;
+    private StorageReference mFirebaseStorage;
+    private ProgressDialog mProgressDialog;
+    private Uri mImageUri = null;
+    AttachmentModel attachmentModel;
+    String passportUrl, iDurl, sscUrl, hsscUrl, baUrl, maUrl;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.attachment_fragment, container, false);
-//        attaach = view.findViewById(R.id.attaach);
-//        path1 = view.findViewById(R.id.p1);
-//        path2 = view.findViewById(R.id.p2);
-//        path3 = view.findViewById(R.id.p3);
-//        path4 = view.findViewById(R.id.p4);
-//
-//        path1.setText("WA1414240995236.jpg");
-//        path2.setText("IMG-20191018-WA0001.jpg");
-//        path3.setText("IMG-20191018-WA0002.jpg");
-//        path4.setText("IMG-20201018-WA0069.jpg");
-
-//
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        mRefe = mDatabase.getReference("officers");
+        mFirebaseStorage = FirebaseStorage.getInstance().getReference();
+        mProgressDialog = new ProgressDialog(getContext());
+        initViews(view);
         return view;
+    }
+
+
+
+    public void initViews(View view){
+        passport=view.findViewById(R.id.passport);
+        iD=view.findViewById(R.id.iD);
+        ssc=view.findViewById(R.id.ssc);
+        hssc=view.findViewById(R.id.hssc);
+        ba=view.findViewById(R.id.ba);
+        ma=view.findViewById(R.id.ma);
+        submit=view.findViewById(R.id.submit);
     }
 
     public void readImage(){
@@ -57,30 +89,80 @@ public class AttachmentFragment extends Fragment {
         startActivityForResult(i, 1 );
     }
 
+    public void setUpClick(){
+        passport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            readImage();
+            }
+        });  iD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readImage();
+
+            }
+        });  ssc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readImage();
+
+            }
+        });  hssc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readImage();
+
+            }
+        });  ba.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readImage();
+
+            }
+        });  ma.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readImage();
+
+            }
+        });
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         MainActivity.title.setText("Upload Documents");
+        setUpClick();
+
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Uri mImageUri = data.getData();
+//            profilePic.setImageURI(mImageUri);
+            CropImage.activity(mImageUri)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .start(getActivity());
+        }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
 
-        if (requestCode == 1  && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                mImageUri = result.getUri();
+//                profilePic.setImageURI(mImageUri);
 
-            Cursor cursor = getActivity().getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            File casted_image = new File(picturePath);
-
-            cursor.close();
-            // String picturePath contains the path of selected Image
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
         }
     }
 }

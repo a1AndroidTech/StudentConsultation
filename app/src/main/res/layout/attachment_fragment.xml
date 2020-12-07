@@ -18,6 +18,7 @@
         app:cardCornerRadius="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
+        android:id="@+id/passport"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/gray_color"
         >
@@ -83,6 +84,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
+            android:id="@+id/iD"
             android:backgroundTint="@color/gray_color"
             >
             <LinearLayout
@@ -147,6 +149,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
+            android:id="@+id/ssc"
             android:backgroundTint="@color/gray_color"
             >
             <LinearLayout
@@ -211,6 +214,8 @@
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
+            android:id="@+id/hssc"
+
             android:backgroundTint="@color/gray_color"
             >
             <LinearLayout
@@ -274,6 +279,7 @@
             app:cardCornerRadius="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
+            android:id="@+id/ba"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/gray_color"
             >
@@ -337,6 +343,7 @@
             app:cardCornerRadius="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
+            android:id="@+id/ma"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/gray_color"
             >
@@ -406,6 +413,7 @@
         android:backgroundTint="@color/green"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
+        android:id="@+id/submit"
         >
 
         <TextView

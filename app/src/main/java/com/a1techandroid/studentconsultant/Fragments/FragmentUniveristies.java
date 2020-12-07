@@ -41,7 +41,7 @@ public class FragmentUniveristies extends Fragment {
         rootNode=FirebaseDatabase.getInstance();
         reference=rootNode.getReference("Univeristies");
         initView(view);
-        addUni();
+//        addUni();
 //        readValueFromFireBase();
         return view;
     }

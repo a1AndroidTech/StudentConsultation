@@ -21,8 +21,15 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (auth.getCurrentUser() != null) {
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    finish();
+
+                    if (auth.getCurrentUser().getEmail().equals("admin@gmail.com")){
+                        startActivity(new Intent(getApplicationContext(), AdminActivity.class));
+                        finish();
+                    }else {
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
+                    }
+
                 }else {
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                     finish();

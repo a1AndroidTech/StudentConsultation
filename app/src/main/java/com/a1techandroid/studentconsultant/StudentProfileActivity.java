@@ -12,14 +12,23 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.a1techandroid.studentconsultant.Adapters.Univeristy_adapter;
 import com.a1techandroid.studentconsultant.Models.StudentProfileModel;
+import com.a1techandroid.studentconsultant.Models.Uni_Model;
 import com.a1techandroid.studentconsultant.Models.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 public class StudentProfileActivity extends AppCompatActivity {
     EditText email, name, phone, ielts, ieltsScore, reading, writing, listening, speaking;
@@ -28,15 +37,16 @@ public class StudentProfileActivity extends AppCompatActivity {
     CardView scorCard;
     DatabaseReference reference;
     FirebaseDatabase rootNode;
+    ArrayList<UserModel> listofItem = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_profile_activity);
         rootNode= FirebaseDatabase.getInstance();
-        reference=rootNode.getReference("StudentProfile");
+        reference=rootNode.getReference("SC");
         initViews();
-        getData();
         setUpClick();
+        readValueFromFirebase();
         enableieltsField();
         checkValidty();
     }
@@ -64,6 +74,7 @@ public class StudentProfileActivity extends AppCompatActivity {
         speaking=findViewById(R.id.speakingScore);
         listening=findViewById(R.id.listeningScore);
         scorCard=findViewById(R.id.scorCard);
+        scorCard.setVisibility(View.GONE);
 //        reading.setEnabled(false);
 //        writing.setEnabled(false);
 //        speaking.setEnabled(false);
@@ -72,12 +83,6 @@ public class StudentProfileActivity extends AppCompatActivity {
 //        nextButton.setEnabled(false);
     }
 
-    public void getData(){
-        userModel= SharedPrefrences.getUser(getApplicationContext());
-        email.setText(userModel.getEmail());
-        name.setText(userModel.getName());
-        phone.setText(userModel.getPhone());
-    }
 
     public void setUpClick()
     {
@@ -124,5 +129,33 @@ public class StudentProfileActivity extends AppCompatActivity {
         String wrtingString = writing.getText().toString();
         StudentProfileModel model = new StudentProfileModel(emailString, nameString, phoneString,  cgpaString, ieltsScoreString,readingString, listeningString, speakingString, wrtingString);
         return model;
+    }
+
+    public void readValueFromFirebase(){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        Query applesQuery = ref.child("SC").child("User").orderByChild("email").equalTo(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+
+        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                    UserModel userModel = appleSnapshot.getValue(UserModel.class);
+                    setValues(userModel);
+//                            ordersLists.remove(order);
+//                            notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void setValues(UserModel values){
+        email.setText(values.getEmail());
+        name.setText(values.getName());
+        phone.setText(values.getPhone());
     }
 }

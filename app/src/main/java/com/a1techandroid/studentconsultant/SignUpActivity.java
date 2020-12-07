@@ -1,5 +1,6 @@
 package com.a1techandroid.studentconsultant;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -35,6 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
     ProgressBar progressBar;
     RadioGroup rg;
     int userType = 0;
+    private ProgressDialog mProgressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,8 @@ public class SignUpActivity extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
         rootNode=FirebaseDatabase.getInstance();
         reference=rootNode.getReference("SC");
+        mProgressDialog = new ProgressDialog(this);
+
         initViews();
         setUpClicks();
         radioButnListner();
@@ -131,22 +135,28 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void createUserOnServer(String email, String password, String phone, String name){
-        progressBar.setVisibility(View.VISIBLE);
+        mProgressDialog.setTitle("Creating User");
+        mProgressDialog.setMessage("please wait...");
+        mProgressDialog.show();
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Toast.makeText(SignUpActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                         if (!task.isSuccessful()) {
+                            mProgressDialog.hide();
                             Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            mProgressDialog.hide();
                             progressBar.setVisibility(View.GONE);
                             UserModel user = new UserModel(name, phone, email, password, userType);
                             String uId = auth.getCurrentUser().getUid();
                             user.setUser_id(uId);
                             reference.child("User").child(uId).setValue(user);
-                            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("idNewUSer", "yes");
+                            startActivity(intent);
                             finish();
                         }
                     }

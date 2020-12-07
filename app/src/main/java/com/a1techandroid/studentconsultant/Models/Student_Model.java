@@ -7,6 +7,10 @@ public class Student_Model {
     String uniName;
     String ieltsScore;
 
+    public Student_Model(){
+
+    }
+
     public Student_Model(String name, String applyFor, String uniName, String ieltsScore) {
         this.name = name;
         this.applyFor = applyFor;

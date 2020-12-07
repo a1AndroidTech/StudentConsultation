@@ -6,6 +6,9 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.a1techandroid.studentconsultant.Adapters.StudentListAdapter;
 import com.a1techandroid.studentconsultant.Adapters.Univeristy_adapter;
@@ -33,15 +36,26 @@ public class AdminActivity extends AppCompatActivity {
         studetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+            StudentActivity activity = new StudentActivity();
+            replaceFragment(activity);
             }
         });
 
         UniverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UniversityActivity activity = new UniversityActivity();
+                replaceFragment(activity);
             }
         });
+    }
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.contentFrame1, fragment);
+        fragmentTransaction.addToBackStack(fragment.toString());
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.commit();
     }
 
 

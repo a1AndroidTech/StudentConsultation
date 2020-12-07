@@ -1,5 +1,6 @@
 package com.a1techandroid.studentconsultant;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -33,6 +34,7 @@ public class StudentQualificationActivity extends AppCompatActivity {
     FirebaseDatabase rootNode;
     StudentProfileModel model;
     QualificationModel model1;
+    private ProgressDialog mProgressDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,8 @@ public class StudentQualificationActivity extends AppCompatActivity {
         rootNode=FirebaseDatabase.getInstance();
         reference=rootNode.getReference("StudentProfile");
         reference2=rootNode.getReference("StudentProfileQu");
+        mProgressDialog = new ProgressDialog(this);
+
         initViews();
         Gson gson = new Gson();
         String profileModel = getIntent().getStringExtra("model");
@@ -77,9 +81,10 @@ public class StudentQualificationActivity extends AppCompatActivity {
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
+                mProgressDialog.setTitle("Updating Profile");
+                mProgressDialog.setMessage("please wait...");
+                mProgressDialog.show();
+                reference.child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".","")).setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
 
@@ -91,9 +96,11 @@ public class StudentQualificationActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
 
                                     if (task.isSuccessful()) {
+                                        mProgressDialog.hide();
                                         Toast.makeText(getApplicationContext(), "submitted successfully", Toast.LENGTH_SHORT).show();
                                         finish();
                                     } else {
+                                        mProgressDialog.hide();
                                         Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
                                     }
                                 }

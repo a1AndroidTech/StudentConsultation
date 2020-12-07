@@ -1,5 +1,6 @@
 package com.a1techandroid.studentconsultant;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,12 +39,15 @@ public class LoginActivity extends AppCompatActivity {
     ProgressBar progressBar;
     RadioGroup rg;
     int userType = 0;
+    private ProgressDialog mProgressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         auth=FirebaseAuth.getInstance();
         reference = FirebaseDatabase.getInstance().getReference("User");
         setContentView(R.layout.activity_login);
+        mProgressDialog = new ProgressDialog(this);
         initViews();
         setUpClicks();
         radioButtonListner();
@@ -121,8 +125,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void loginUSer(String email, String password){
-        progressBar.setVisibility(View.VISIBLE);
-        auth.signInWithEmailAndPassword(email, password)
+        mProgressDialog.setTitle("Login");
+        mProgressDialog.setMessage("please wait...");
+        mProgressDialog.show();            auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -133,11 +138,20 @@ public class LoginActivity extends AppCompatActivity {
                             // there was an error
                             Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                         } else {
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+
+                            if (FirebaseAuth.getInstance().getCurrentUser().getEmail().equals("admin@gmail.com")){
+                                Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }else {
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.putExtra("idNewUSer", "no");
+                                startActivity(intent);
+                                finish();
+                            }
+
                         }
-                        progressBar.setVisibility(View.GONE);
+//                        progressBar.setVisibility(View.GONE);
                     }
                 });
     }

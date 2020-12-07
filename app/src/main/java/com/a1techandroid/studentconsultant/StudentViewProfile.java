@@ -2,6 +2,7 @@ package com.a1techandroid.studentconsultant;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +34,7 @@ public class StudentViewProfile extends AppCompatActivity {
     DatabaseReference reference1;
     FirebaseDatabase rootNode;
     StudentProfileModel uni_model;
+    ArrayList<StudentProfileModel> dataList = new ArrayList();
     ArrayList<QualificationModel> modelList = new ArrayList<>();
 
     @Override
@@ -86,28 +88,80 @@ public class StudentViewProfile extends AppCompatActivity {
 
     }
 
-    public void setValue(StudentProfileModel uni_model){
-        nameTxt.setText(uni_model.getName());
-        emailTxt.setText(uni_model.getEmail());
-        phoneTxt.setText(uni_model.getPhone());
-        cgpaText.setText(uni_model.getCgpa());
-        ieltsTxt.setText(uni_model.getIeltsScore());
-        readingTx.setText(uni_model.getReading());
-        listeningTx.setText(uni_model.getListneing());
-        writingTx.setText(uni_model.getWriting());
-        speakingTx.setText(uni_model.getSpeaking());
-        reference1.child(uni_model.getEmail().replace(".","")).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                QualificationModel  model=snapshot.getValue(QualificationModel.class);
-                modelList.add(model);
-                setValues2(modelList);
+    public void setValue(ArrayList<StudentProfileModel> uni_model){
+
+        for (int i=0; i< uni_model.size(); i++){
+            if (uni_model.get(i).getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())){
+                StudentProfileModel studentProfileModel = uni_model.get(i);
+                nameTxt.setText(studentProfileModel.getName());
+                emailTxt.setText(studentProfileModel.getEmail());
+                phoneTxt.setText(studentProfileModel.getPhone());
+                cgpaText.setText(studentProfileModel.getCgpa());
+                ieltsTxt.setText(studentProfileModel.getIeltsScore());
+                readingTx.setText(studentProfileModel.getReading());
+                listeningTx.setText(studentProfileModel.getListneing());
+                writingTx.setText(studentProfileModel.getWriting());
+                speakingTx.setText(studentProfileModel.getSpeaking());
+                reference1.child(studentProfileModel.getEmail().replace(".","")).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        QualificationModel  model=snapshot.getValue(QualificationModel.class);
+                        modelList.add(model);
+                        setValues2(modelList);
 
 //                officers.setUid(snapshot.getKey());
 //                listofItems.add(uni_model);
 //                settingListAdapter = new Univeristy_adapter(getActivity(), listofItems);
 //                listView.setAdapter(settingListAdapter);
 //                settingListAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                        QualificationModel  model=snapshot.getValue(QualificationModel.class);
+                        modelList.add(model);
+//                officers.setUid(snapshot.getKey());
+//                listofItems.remove(officers);
+//                settingListAdapter = new Univeristy_adapter(getActivity(), listofItems);
+//                listView.setAdapter(settingListAdapter);
+//                settingListAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }else {
+                Toast.makeText(this, "something went wrong", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+
+    }
+
+    public void readValueFromFireBase(){
+
+        reference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                uni_model=snapshot.getValue(StudentProfileModel.class);
+//                officers.setUid(snapshot.getKey());
+                dataList.add(uni_model);
+                setValue(dataList);
+
             }
 
             @Override
@@ -118,13 +172,10 @@ public class StudentViewProfile extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                QualificationModel  model=snapshot.getValue(QualificationModel.class);
-                modelList.add(model);
+                uni_model=snapshot.getValue(StudentProfileModel.class);
 //                officers.setUid(snapshot.getKey());
-//                listofItems.remove(officers);
-//                settingListAdapter = new Univeristy_adapter(getActivity(), listofItems);
-//                listView.setAdapter(settingListAdapter);
-//                settingListAdapter.notifyDataSetChanged();
+                dataList.remove(uni_model);
+               setValue(dataList);
             }
 
             @Override
@@ -139,22 +190,19 @@ public class StudentViewProfile extends AppCompatActivity {
         });
 
 
-    }
 
-    public void readValueFromFireBase(){
-
-        reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                uni_model=snapshot.getValue(StudentProfileModel.class);
-                setValue(uni_model);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                uni_model=snapshot.getValue(StudentProfileModel.class);
+//                setValue(uni_model);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 //
 
     }
