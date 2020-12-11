@@ -39,9 +39,11 @@ public class MainActivity extends AppCompatActivity {
     AnimatedBottomBar animatedBottomBar;
     FirebaseAuth auth;
     DatabaseReference reference;
+    DatabaseReference ref;
     ImageView moreOption;
     public static TextView title;
     String isNewUser;
+    UserModel userModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,41 +51,46 @@ public class MainActivity extends AppCompatActivity {
         isNewUser= getIntent().getStringExtra("idNewUSer");
         auth=FirebaseAuth.getInstance();
         reference= FirebaseDatabase.getInstance().getReference("SC");
-        DatabaseReference ref = reference.child("User");
+        ref = reference.child("User");
+        userModel = SharedPrefrences.getUser(getApplicationContext());
         initViews();
         setUpAnimatedBar();
-        FragmentHome home= new FragmentHome();
-        replaceFragment(home);
-        ref.child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".","")).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Toast.makeText(MainActivity.this, "success", Toast.LENGTH_SHORT).show();
-                for(DataSnapshot ds: snapshot.getChildren()){
-                    UserModel userModal = ds.getValue(UserModel.class);
-                    SharedPrefrences.saveUSer(userModal, getApplicationContext());
-                    Log.i("userModel", ""+userModal.getUser_type());
-//                    if(userModal.getUser_id().equals(auth.getCurrentUser().getUid())) {
-//                        if (userModal.getUser_type() == 1){
-//                            Toast.makeText(MainActivity.this, "student", Toast.LENGTH_SHORT).show();
-//                            reference.removeEventListener(valueEventListener);
-//                        }else {
-//                            Toast.makeText(MainActivity.this, "Consultant", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                        reference.removeEventListener(valueEventListener);
-//                    }
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(MainActivity.this, "canceled", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        if (isNewUser.equals("yes")){
-            alertProfile();
+        if (userModel.getProfileStatus().equals("pending")){
+            StudentUpdateProfileFragment home= new StudentUpdateProfileFragment();
+            replaceFragment(home);
+        }else {
+            StudentViewFragment home= new StudentViewFragment();
+            replaceFragment(home);
         }
+
+
+
+//        ref.child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".","")).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                Toast.makeText(MainActivity.this, "success", Toast.LENGTH_SHORT).show();
+//                for(DataSnapshot ds: snapshot.getChildren()){
+//                    UserModel userModal = ds.getValue(UserModel.class);
+//                    SharedPrefrences.saveUSer(userModal, getApplicationContext());
+//                    if (userModal.getProfileStatus().equals("pending")){
+//                        alertProfile();
+//                    }
+//                    Log.i("userModel", ""+userModal.getUser_type());
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(MainActivity.this, "canceled", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+//        if (isNewUser.equals("yes")){
+//            alertProfile();
+//        }
+
+
 
     }
 
@@ -101,8 +108,13 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (newTab.getId()) {
                     case R.id.home:
-                        FragmentHome home= new FragmentHome();
-                        replaceFragment(home);
+                        if (userModel.getProfileStatus().equals("pending")){
+                            StudentUpdateProfileFragment home= new StudentUpdateProfileFragment();
+                            replaceFragment(home);
+                        }else {
+                            StudentViewFragment home= new StudentViewFragment();
+                            replaceFragment(home);
+                        }
                         title.setText("Home");
                         break;
                     case R.id.book:
@@ -122,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         moreOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, StudentProfileActivity.class));
+                startActivity(new Intent(MainActivity.this, StudentUpdateProfileFragment.class));
             }
         });
     }
@@ -197,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
                 "Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        startActivity(new Intent(getApplicationContext(), StudentProfileActivity.class));
+                        startActivity(new Intent(getApplicationContext(), StudentUpdateProfileFragment.class));
                         dialog.cancel();
                     }
                 });

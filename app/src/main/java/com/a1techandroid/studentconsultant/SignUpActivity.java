@@ -43,7 +43,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         auth=FirebaseAuth.getInstance();
         rootNode=FirebaseDatabase.getInstance();
-        reference=rootNode.getReference("SC");
+        reference=rootNode.getReference();
         mProgressDialog = new ProgressDialog(this);
 
         initViews();
@@ -107,10 +107,14 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         // Check for a valid phone number.
-        if (phone.getText().toString().isEmpty()) {
+        if (phone.getText().toString().isEmpty()  ) {
             phoneError.setError(getResources().getString(R.string.phone_error));
             isPhoneValid = false;
-        } else  {
+        }else if (phone.getText().toString().length() < 11 ){
+            phoneError.setError("Please put 11 digit phone number");
+            isPhoneValid = false;
+        }
+        else  {
             isPhoneValid = true;
             phoneError.setErrorEnabled(false);
         }
@@ -128,10 +132,13 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         if (isNameValid && isEmailValid && isPhoneValid && isPasswordValid) {
-            createUserOnServer(email.getText().toString(), password.getText().toString(), phone.getText().toString(),name.getText().toString());
-            Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
-        }
 
+            if (userType == 0) {
+                Toast.makeText(this, "Please Select User Type", Toast.LENGTH_SHORT).show();
+            } else {
+                createUserOnServer(email.getText().toString(), password.getText().toString(), phone.getText().toString(), name.getText().toString());
+            }
+        }
     }
 
     public void createUserOnServer(String email, String password, String phone, String name){
@@ -142,7 +149,6 @@ public class SignUpActivity extends AppCompatActivity {
                 .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Toast.makeText(SignUpActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                         if (!task.isSuccessful()) {
                             mProgressDialog.hide();
                             Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
@@ -150,12 +156,17 @@ public class SignUpActivity extends AppCompatActivity {
                         } else {
                             mProgressDialog.hide();
                             progressBar.setVisibility(View.GONE);
-                            UserModel user = new UserModel(name, phone, email, password, userType);
+                             UserModel user = new UserModel(name, phone, email, password, userType, "pending");
                             String uId = auth.getCurrentUser().getUid();
                             user.setUser_id(uId);
-                            reference.child("User").child(uId).setValue(user);
+                            if (userType ==1){
+                                reference.child("Student").child(reference.push().getKey()).setValue(user);
+                                SharedPrefrences.saveUSer(user, getApplicationContext());
+                            }else {
+                                reference.child("Consultant").child(reference.push().getKey()).setValue(user);
+                                SharedPrefrences.saveUSer(user, getApplicationContext());
+                            }
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("idNewUSer", "yes");
                             startActivity(intent);
                             finish();
                         }
@@ -172,12 +183,10 @@ public class SignUpActivity extends AppCompatActivity {
                 switch (checkedId){
                     case R.id.student:
                         userType = 1;
-                        Toast.makeText(SignUpActivity.this, ""+userType, Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.consultant:
                         userType = 2;
-                        Toast.makeText(SignUpActivity.this, ""+userType, Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

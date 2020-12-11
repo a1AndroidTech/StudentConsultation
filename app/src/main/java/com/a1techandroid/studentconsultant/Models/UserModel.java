@@ -8,14 +8,16 @@ public class UserModel {
         private String password;
         private String user_id;
         private int user_type;
+        private String profileStatus;
 
 
-        public UserModel(String name, String phone, String email, String password, int user_type) {
+        public UserModel(String name, String phone, String email, String password, int user_type,String profileStatus) {
             this.name = name;
             this.phone = phone;
             this.email = email;
             this.password = password;
             this.user_type = user_type;
+            this.profileStatus = profileStatus;
         }
 
         public UserModel(){
@@ -70,4 +72,12 @@ public class UserModel {
             this.user_id = user_id;
         }
 
+
+    public String getProfileStatus() {
+        return profileStatus;
+    }
+
+    public void setProfileStatus(String profileStatus) {
+        this.profileStatus = profileStatus;
+    }
 }

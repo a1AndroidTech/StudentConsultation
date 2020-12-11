@@ -42,14 +42,26 @@ public class SettingFragment extends Fragment {
     public void initView(View view){
         listView=view.findViewById(R.id.listView);
         listofItems= new ArrayList<>();
-        listofItems.add("Update Profile");
-        listofItems.add("Reset Password");
-        listofItems.add("Rate this App");
-        listofItems.add("About");
-        listofItems.add("Share");
-        listofItems.add("Logout");
-        settingListAdapter = new SettingListAdapter(getActivity(), listofItems);
-        listView.setAdapter(settingListAdapter);
-        settingListAdapter.notifyDataSetChanged();
+
+        if (FirebaseAuth.getInstance().getCurrentUser().getEmail().equals("admin@gmail.com")){
+            listofItems.add("Add New Admin");
+            listofItems.add("About");
+            listofItems.add("Share");
+            listofItems.add("Logout");
+            settingListAdapter = new SettingListAdapter(getActivity(), listofItems);
+            listView.setAdapter(settingListAdapter);
+            settingListAdapter.notifyDataSetChanged();
+        }else {
+            listofItems.add("Update Profile");
+            listofItems.add("Reset Password");
+            listofItems.add("Rate this App");
+            listofItems.add("About");
+            listofItems.add("Share");
+            listofItems.add("Logout");
+            settingListAdapter = new SettingListAdapter(getActivity(), listofItems);
+            listView.setAdapter(settingListAdapter);
+            settingListAdapter.notifyDataSetChanged();
+        }
+
     }
 }

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:elevation="15dp"
+        app:cardCornerRadius="15dp"
+        android:backgroundTint="#522020"
+        android:layout_margin="10dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textStyle="bold"
+                    android:id="@+id/nameS"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    /> <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="uniName"
+                android:textStyle="bold"
+                android:id="@+id/name"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                />
+
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                /><TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="uniName"
+                android:textStyle="bold"
+                android:id="@+id/phone"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="7dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:id="@+id/date"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jan 12 2021"
+                    android:id="@+id/email"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:visibility="visible"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                >
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:text="View Profile"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:id="@+id/viewProfile"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/button_gradient"
+                android:layout_marginRight="15dp"
+                />
+                <Button
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:text="Disapprove"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:id="@+id/delate"
+                    android:background="@drawable/button_gradient"
+
+                    android:layout_marginRight="15dp"
+                    />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:text="Approve"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:id="@+id/approve"
+                android:background="@drawable/button_gradient"
+                />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

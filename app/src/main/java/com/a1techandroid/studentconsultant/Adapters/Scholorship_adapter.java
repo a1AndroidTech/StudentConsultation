@@ -3,6 +3,7 @@ package com.a1techandroid.studentconsultant.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.a1techandroid.studentconsultant.Models.Student_Model;
 import com.a1techandroid.studentconsultant.R;
 import com.a1techandroid.studentconsultant.ScholorshipDetailActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Scholorship_adapter extends BaseAdapter {
@@ -72,14 +74,17 @@ public class Scholorship_adapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                AttachmentFragment fragment = new AttachmentFragment();
-//                FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.contentFrame, fragment);
-//                fragmentTransaction.addToBackStack(fragment.toString());
-//                fragmentTransacti1on.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//                fragmentTransaction.commit();
-            v.getContext().startActivity(new Intent(v.getContext(), ScholorshipDetailActivity.class));
+                ScholorshipDetailActivity fragment = new ScholorshipDetailActivity();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("UniKey", (Serializable) model);
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.contentFrame, fragment);
+                fragmentTransaction.addToBackStack(fragment.toString());
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.commit();
+
 
             }
         });

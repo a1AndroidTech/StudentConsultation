@@ -1,5 +1,6 @@
 package com.a1techandroid.studentconsultant;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,17 +16,24 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.a1techandroid.studentconsultant.Fragments.AttachmentFragment;
+import com.a1techandroid.studentconsultant.Models.RequestModel;
+import com.a1techandroid.studentconsultant.Models.Scholorship_model;
+import com.a1techandroid.studentconsultant.Models.Uni_Model;
 
-public class ScholorshipDetailActivity extends AppCompatActivity {
+import java.io.Serializable;
+
+public class ScholorshipDetailActivity extends Fragment {
     TextView SName, UName, SType, SDate;
     CardView ApplyButton;
-
-
+    Scholorship_model model;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.scholrshipview, container, false);
+        Bundle bundle = getArguments();
+        model= (Scholorship_model) bundle.getSerializable("UniKey");
         initViews(view);
         setUpClick();
+
         return view;
     }
 
@@ -35,20 +43,30 @@ public class ScholorshipDetailActivity extends AppCompatActivity {
         SType = view.findViewById(R.id.schType);
         SDate = view.findViewById(R.id.lastDate);
         ApplyButton = view.findViewById(R.id.apply);
+
+
+        SName.setText(model.getSchName());
+        UName.setText(model.getUniName());
+        SDate.setText(model.getEndDate());
+        SType.setText("This is fully funded scholorship");
     }
 
     public void setUpClick(){
         ApplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RequestModel requestModel = new RequestModel(SName.getText().toString(), UName.getText().toString(), SType.getText().toString(), SDate.getText().toString(),"", "", "", "", "", "");
                 AttachmentFragment fragment=new AttachmentFragment();
-                replaceFragment(fragment);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("key", (Serializable) requestModel);
+                fragment.setArguments(bundle);
+                replaceFragment(fragment, getContext());
             }
         });
     }
 
-    public void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+    public void replaceFragment(Fragment fragment, Context context) {
+        FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.contentFrame, fragment);
         fragmentTransaction.addToBackStack(fragment.toString());

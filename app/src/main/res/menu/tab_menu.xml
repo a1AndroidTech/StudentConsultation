@@ -8,7 +8,8 @@
     <item
         android:id="@+id/book"
         android:icon="@drawable/book"
-        android:title="Univeristies " />
+        android:title="Univeristies "
+        android:visible="false"/>
 
     <item
         android:id="@+id/account"

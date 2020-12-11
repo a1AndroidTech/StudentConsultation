@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white">
 
     <LinearLayout
@@ -13,19 +17,19 @@
 
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@android:color/holo_orange_dark"
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="35dp"-->
+<!--            android:background="@android:color/holo_orange_dark"-->
 
-            ><TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Complete Your Profile for Application"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:layout_centerInParent="true"        />
-        </RelativeLayout>
+<!--            ><TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Complete Your Profile for Application"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="20sp"-->
+<!--            android:layout_centerInParent="true"        />-->
+<!--        </RelativeLayout>-->
 
 <!--        <de.hdodenhof.circleimageview.CircleImageView-->
 <!--            android:id="@+id/ProfilePic"-->
@@ -49,7 +53,7 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="5dp"
             android:background="@color/gray_color"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
@@ -152,7 +156,6 @@
                 android:id="@+id/item_check"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:onClick="itemClicked"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:background="@color/gray_color"
@@ -176,8 +179,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Last degree CGPA"
-                android:inputType="textEmailAddress"
+                android:inputType="numberDecimal"
                 android:maxLines="1"
+
                 android:paddingStart="5dp"
                 android:singleLine="true"
                 android:paddingLeft="5dp"
@@ -187,13 +191,14 @@
 
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ieltsScore"
+            android:id="@+id/ieltsScoreLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:background="@color/gray_color"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
+            android:visibility="gone"
             >
 
             <EditText
@@ -202,7 +207,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Ielts Score"
-                android:inputType="textEmailAddress"
+                android:inputType="number"
                 android:maxLines="1"
                 android:paddingStart="5dp"
                 android:singleLine="true"
@@ -220,7 +225,7 @@
             android:elevation="15dp"
             android:layout_marginRight="20sp"
             android:layout_marginLeft="20sp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:backgroundTint="#522020"
             android:id="@+id/scorCard"
@@ -230,7 +235,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             >
@@ -265,6 +270,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="20sp"
+                    android:inputType="number"
                     android:textColor="@color/white"
                     />
             </LinearLayout>
@@ -290,6 +296,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="20sp"
+                    android:inputType="number"
                     android:textColor="@color/white"
                     />
             </LinearLayout>
@@ -315,6 +322,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="20sp"
+                    android:inputType="number"
                     android:textColor="@color/white"
                     />
             </LinearLayout>
@@ -340,6 +348,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="20sp"
+                    android:inputType="number"
                     android:textColor="@color/white"
                     />
             </LinearLayout>
@@ -352,12 +361,12 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:elevation="12dp"
+            android:layout_height="50dp"
+            android:elevation="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            app:cardCornerRadius="12dp"
+            app:cardCornerRadius="15dp"
             android:backgroundTint="@android:color/holo_orange_dark"
             android:id="@+id/nextButton"
 
@@ -377,3 +386,5 @@
 
 
 </RelativeLayout>
+
+</ScrollView>

@@ -1,6 +1,8 @@
 package com.a1techandroid.studentconsultant.Models;
 
-public class Scholorship_model {
+import java.io.Serializable;
+
+public class Scholorship_model implements Serializable {
 
 
     String schName;

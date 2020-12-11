@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
@@ -36,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout emailError, passError;
     FirebaseAuth auth;
     DatabaseReference reference;
+    DatabaseReference reference1;
+    FirebaseDatabase rootNode;
     ProgressBar progressBar;
     RadioGroup rg;
     int userType = 0;
@@ -45,7 +48,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         auth=FirebaseAuth.getInstance();
-        reference = FirebaseDatabase.getInstance().getReference("User");
+        rootNode=FirebaseDatabase.getInstance();
+        reference = rootNode.getReference("Student");
+        reference1 = rootNode.getReference("Consultant");
         setContentView(R.layout.activity_login);
         mProgressDialog = new ProgressDialog(this);
         initViews();
@@ -118,7 +123,11 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (isEmailValid && isPasswordValid) {
-            loginUSer(email.getText().toString(), password.getText().toString());
+            if (userType == 0 && !email.getText().toString().equals("admin@gmail.com")){
+                Toast.makeText(this, "Please Select User Type", Toast.LENGTH_SHORT).show();
+            }else {
+                loginUSer(email.getText().toString(), password.getText().toString());
+            }
         }
 
     }
@@ -127,7 +136,8 @@ public class LoginActivity extends AppCompatActivity {
     public void loginUSer(String email, String password){
         mProgressDialog.setTitle("Login");
         mProgressDialog.setMessage("please wait...");
-        mProgressDialog.show();            auth.signInWithEmailAndPassword(email, password)
+        mProgressDialog.show();
+        auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -144,11 +154,69 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                             }else {
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                intent.putExtra("idNewUSer", "no");
-                                startActivity(intent);
-                                finish();
+                                if (userType == 1){
+                                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                                    Query applesQuery = reference.orderByChild("user_id").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                                    applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                                                UserModel model = appleSnapshot.getValue(UserModel.class);
+                                                SharedPrefrences.saveUSer(model, getApplicationContext());
+                                                if (FirebaseAuth.getInstance().getCurrentUser().getEmail().equals("admin@gmail.com")){
+                                                    mProgressDialog.hide();
+                                                    Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }else {
+                                                    mProgressDialog.hide();
+                                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }else if (userType == 2){
+                                    Query applesQuery = reference1.orderByChild("user_id").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                                    applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                                                UserModel model = appleSnapshot.getValue(UserModel.class);
+                                                SharedPrefrences.saveUSer(model, getApplicationContext());
+                                                if (FirebaseAuth.getInstance().getCurrentUser().getEmail().equals("admin@gmail.com")){
+                                                    mProgressDialog.hide();
+                                                    Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }else {
+                                                    mProgressDialog.hide();
+                                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
                             }
+
+
+
+
 
                         }
 //                        progressBar.setVisibility(View.GONE);
@@ -164,12 +232,10 @@ public class LoginActivity extends AppCompatActivity {
                     case R.id.student:
                         // do operations specific to this selection
                         userType = 1;
-                        Toast.makeText(LoginActivity.this, ""+userType, Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.consultant:
                         // do operations specific to this selection
                         userType = 2;
-                        Toast.makeText(LoginActivity.this, ""+userType, Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
