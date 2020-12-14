@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
@@ -17,6 +18,8 @@ import com.a1techandroid.studentconsultant.Models.RequestModel;
 import com.a1techandroid.studentconsultant.Models.Scholorship_model;
 import com.a1techandroid.studentconsultant.R;
 import com.a1techandroid.studentconsultant.ScholorshipDetailActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,8 +27,12 @@ import java.util.ArrayList;
 public class RequestAdapter  extends BaseAdapter {
     Context context;
     ArrayList<RequestModel> list= new ArrayList<RequestModel>();
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mRefe;
 
     public RequestAdapter(Context context, ArrayList<RequestModel> list){
+        mDatabase = FirebaseDatabase.getInstance();
+        mRefe = mDatabase.getReference("requests");
         this.context = context;
         this.list = list;
     }
@@ -46,6 +53,7 @@ public class RequestAdapter  extends BaseAdapter {
 
     class ViewHolder{
         TextView name, sName, uniName, date;
+        Button accept;
     }
 
     @Override
@@ -59,6 +67,7 @@ public class RequestAdapter  extends BaseAdapter {
             holder.sName = convertView.findViewById(R.id.nameSS);
             holder.uniName = convertView.findViewById(R.id.unName);
             holder.date = convertView.findViewById(R.id.date);
+            holder.accept = convertView.findViewById(R.id.accept);
 
             convertView.setTag(holder);
         } else {
@@ -70,7 +79,12 @@ public class RequestAdapter  extends BaseAdapter {
         holder.sName.setText(model.getScName());
         holder.uniName.setText(model.getUniName());
         holder.date.setText(model.getSDate());
+        holder.accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
 
 //        convertView.setOnClickListener(new View.OnClickListener() {
 //            @Override

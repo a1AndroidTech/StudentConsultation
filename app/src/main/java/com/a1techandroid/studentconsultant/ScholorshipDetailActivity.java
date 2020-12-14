@@ -55,7 +55,7 @@ public class ScholorshipDetailActivity extends Fragment {
         ApplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestModel requestModel = new RequestModel(SName.getText().toString(), UName.getText().toString(), SType.getText().toString(), SDate.getText().toString(),"", "", "", "", "", "");
+                RequestModel requestModel = new RequestModel(SName.getText().toString(), UName.getText().toString(), SType.getText().toString(), SDate.getText().toString(),"", "", "", "", "", "", "");
                 AttachmentFragment fragment=new AttachmentFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("key", (Serializable) requestModel);

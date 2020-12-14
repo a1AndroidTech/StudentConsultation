@@ -21,9 +21,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.a1techandroid.studentconsultant.Fragments.FragmentStudents;
+import com.a1techandroid.studentconsultant.Fragments.REquestListFragment;
 import com.a1techandroid.studentconsultant.LoginActivity;
 import com.a1techandroid.studentconsultant.MainActivity;
 import com.a1techandroid.studentconsultant.R;
+import com.a1techandroid.studentconsultant.SharedPrefrences;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -101,32 +104,71 @@ public class SettingListAdapter  extends BaseAdapter {
                         context.startActivity(new Intent(context, LoginActivity.class));
                     }
                 }else {
-                    if (position == 0){
 
-                    }else if (position == 1){
-                        resetPasswordDialog();
-                    }else if (position == 2){
-                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.kiloo.subwaysurf")));
+                    if (SharedPrefrences.getUser(context).getUser_type() == 1){
+                        if (position == 0){
 
-                    }else if (position == 3){
-                        AboutAppfragment fragment = new AboutAppfragment();
-                        FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.contentFrame, fragment);
-                        fragmentTransaction.addToBackStack(fragment.toString());
-                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                        fragmentTransaction.commit();
+                        }else if (position == 1){
+                            resetPasswordDialog();
+                        }else if (position == 2){
+                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.kiloo.subwaysurf")));
 
-                    }else if (position == 4){
+                        }else if (position == 3){
+                            AboutAppfragment fragment = new AboutAppfragment();
+                            FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.contentFrame, fragment);
+                            fragmentTransaction.addToBackStack(fragment.toString());
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                            fragmentTransaction.commit();
 
-                        Intent share = new Intent(Intent.ACTION_SEND);
-                        share.setType("text/plain");
-                        share.putExtra(Intent.EXTRA_TEXT, "I'm being sent!!");
-                        context.startActivity(Intent.createChooser(share, "Share Text"));
-                    }else if (position == 5){
-                        FirebaseAuth.getInstance().signOut();
-                        context.startActivity(new Intent(context, LoginActivity.class));
+                        }else if (position == 4){
+
+                            Intent share = new Intent(Intent.ACTION_SEND);
+                            share.setType("text/plain");
+                            share.putExtra(Intent.EXTRA_TEXT, "I'm being sent!!");
+                            context.startActivity(Intent.createChooser(share, "Share Text"));
+                        }else if (position == 5){
+                            FirebaseAuth.getInstance().signOut();
+                            context.startActivity(new Intent(context, LoginActivity.class));
+                        }
+                    }else {
+                        if (position ==  0){
+                            REquestListFragment fragment = new REquestListFragment();
+                            FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.contentFrame, fragment);
+                            fragmentTransaction.addToBackStack(fragment.toString());
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                            fragmentTransaction.commit();
+                        }else if (position == 1){
+
+                        }else if (position == 2){
+                            resetPasswordDialog();
+                        }else if (position == 3){
+                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.kiloo.subwaysurf")));
+
+                        }else if (position == 4){
+                            AboutAppfragment fragment = new AboutAppfragment();
+                            FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.contentFrame, fragment);
+                            fragmentTransaction.addToBackStack(fragment.toString());
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                            fragmentTransaction.commit();
+
+                        }else if (position == 5){
+
+                            Intent share = new Intent(Intent.ACTION_SEND);
+                            share.setType("text/plain");
+                            share.putExtra(Intent.EXTRA_TEXT, "I'm being sent!!");
+                            context.startActivity(Intent.createChooser(share, "Share Text"));
+                        }else if (position == 6){
+                            FirebaseAuth.getInstance().signOut();
+                            context.startActivity(new Intent(context, LoginActivity.class));
+                        }
                     }
+
                 }
 
             }
@@ -139,7 +181,7 @@ public class SettingListAdapter  extends BaseAdapter {
 
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
         dialog.setContentView(R.layout.forget_password_dialog);
 
         final EditText editText = (EditText) dialog.findViewById(R.id.email);

@@ -14,7 +14,9 @@ import androidx.fragment.app.Fragment;
 import com.a1techandroid.studentconsultant.Adapters.SettingListAdapter;
 import com.a1techandroid.studentconsultant.LoginActivity;
 import com.a1techandroid.studentconsultant.MainActivity;
+import com.a1techandroid.studentconsultant.Models.UserModel;
 import com.a1techandroid.studentconsultant.R;
+import com.a1techandroid.studentconsultant.SharedPrefrences;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -26,10 +28,13 @@ public class SettingFragment extends Fragment {
     SettingListAdapter settingListAdapter;
     ArrayList<String> listofItems;
 
+    UserModel userModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
+        userModel = SharedPrefrences.getUser(getActivity());
         initView(view);
         return view;
     }
@@ -52,15 +57,30 @@ public class SettingFragment extends Fragment {
             listView.setAdapter(settingListAdapter);
             settingListAdapter.notifyDataSetChanged();
         }else {
-            listofItems.add("Update Profile");
-            listofItems.add("Reset Password");
-            listofItems.add("Rate this App");
-            listofItems.add("About");
-            listofItems.add("Share");
-            listofItems.add("Logout");
-            settingListAdapter = new SettingListAdapter(getActivity(), listofItems);
-            listView.setAdapter(settingListAdapter);
-            settingListAdapter.notifyDataSetChanged();
+
+            if (userModel.getUser_type() == 1){
+                listofItems.add("Update Profile");
+                listofItems.add("Reset Password");
+                listofItems.add("Rate this App");
+                listofItems.add("About");
+                listofItems.add("Share");
+                listofItems.add("Logout");
+                settingListAdapter = new SettingListAdapter(getActivity(), listofItems);
+                listView.setAdapter(settingListAdapter);
+                settingListAdapter.notifyDataSetChanged();
+            }else {
+                listofItems.add("Student List");
+                listofItems.add("Update Profile");
+                listofItems.add("Reset Password");
+                listofItems.add("Rate this App");
+                listofItems.add("About");
+                listofItems.add("Share");
+                listofItems.add("Logout");
+                settingListAdapter = new SettingListAdapter(getActivity(), listofItems);
+                listView.setAdapter(settingListAdapter);
+                settingListAdapter.notifyDataSetChanged();
+            }
+
         }
 
     }

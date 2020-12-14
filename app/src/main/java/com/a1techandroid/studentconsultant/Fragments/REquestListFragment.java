@@ -37,6 +37,12 @@ ListView listView;
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getListFormBAckend();
+    }
+
     public void initViews(View view){
      listView= view.findViewById(R.id.listView);
     }

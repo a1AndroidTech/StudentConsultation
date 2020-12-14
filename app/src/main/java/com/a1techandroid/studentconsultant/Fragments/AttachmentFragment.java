@@ -11,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.a1techandroid.studentconsultant.MainActivity;
 import com.a1techandroid.studentconsultant.Models.AttachmentModel;
@@ -25,6 +28,7 @@ import com.a1techandroid.studentconsultant.Models.Scholorship_model;
 import com.a1techandroid.studentconsultant.Models.UserModel;
 import com.a1techandroid.studentconsultant.R;
 import com.a1techandroid.studentconsultant.SharedPrefrences;
+import com.a1techandroid.studentconsultant.StudentViewFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -54,14 +58,17 @@ public class AttachmentFragment extends Fragment {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mRefe;
     private DatabaseReference reference;
+    private DatabaseReference reference1;
     private FirebaseAuth mAuth;
     private StorageReference mFirebaseStorage;
     private ProgressDialog mProgressDialog;
     private Uri mImageUri = null;
     AttachmentModel attachmentModel;
+    ProgressDialog progressDialog;
     boolean passportUrl = false, iDurl = false, sscUrl = false, hsscUrl= false, baUrl= false, maUrl= false;
     String passport1 = "", iD1 = "", ssc1 = "", hssc1 = "", ba1 = "", ma1 = "";
     RequestModel model;
+    TextView passTxt, idTxt, sscTxt, hsscTxt, baTxt, maTxt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +78,8 @@ public class AttachmentFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance();
         mRefe = mDatabase.getReference("requests");
         reference = mDatabase.getReference("Student");
+//        reference1 = mDatabase.getReference("ApplyFor");
+        progressDialog = new ProgressDialog(getActivity());
         mFirebaseStorage = FirebaseStorage.getInstance().getReference();
         mProgressDialog = new ProgressDialog(getContext());
         Bundle bundle = getArguments();
@@ -89,6 +98,14 @@ public class AttachmentFragment extends Fragment {
         ba=view.findViewById(R.id.ba);
         ma=view.findViewById(R.id.ma);
         submit=view.findViewById(R.id.submit);
+
+        passTxt=view.findViewById(R.id.pasTxt);
+        idTxt=view.findViewById(R.id.idTxt);
+        sscTxt=view.findViewById(R.id.sscTxt);
+        hsscTxt=view.findViewById(R.id.hsscTxt);
+        baTxt=view.findViewById(R.id.baTxt);
+        maTxt=view.findViewById(R.id.maTxt);
+
     }
 
     public void readImage(){
@@ -176,29 +193,35 @@ public class AttachmentFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               model.setPassport(passport1);
-               model.setId(iD1);
-               model.setSsc(ssc1);
-               model.setHssc(hssc1);
-               model.setBa(ba1);
-               model.setMa(ma1);
+                if (passport1.equals("") && iD1.equals("") && ssc1.equals("") && hssc1.equals("") && ba1.equals("") && ma1.equals("")){
+                    Toast.makeText(getActivity(), "Please Upload All Documents", Toast.LENGTH_SHORT).show();
+                }else {
+                    model.setPassport(passport1);
+                    model.setId(iD1);
+                    model.setSsc(ssc1);
+                    model.setHssc(hssc1);
+                    model.setBa(ba1);
+                    model.setMa(ma1);
+                    model.setStatus("pending");
 
-                mRefe.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    mProgressDialog.setMessage("Submiting ");
-                    mProgressDialog.show();
-                        if (task.isSuccessful()) {
-                            updateProfileStatus();
-                            Toast.makeText(getActivity(), "submitted successfully", Toast.LENGTH_SHORT).show();
-                            mProgressDialog.hide();
-                        } else {
-                            Toast.makeText(getActivity(), "something went wrong", Toast.LENGTH_SHORT).show();
-                            mProgressDialog.hide();
+                    mRefe.child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".",""))
+                            .setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            mProgressDialog.setMessage("Submiting ");
+                            mProgressDialog.show();
+                            if (task.isSuccessful()) {
+                                updateProfileStatus();
+                                Toast.makeText(getActivity(), "submitted successfully", Toast.LENGTH_SHORT).show();
+                                mProgressDialog.hide();
+                            } else {
+                                Toast.makeText(getActivity(), "something went wrong", Toast.LENGTH_SHORT).show();
+                                mProgressDialog.hide();
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
             }
         });
 
@@ -219,6 +242,8 @@ public class AttachmentFragment extends Fragment {
                     model.setProfileStatus("Approved");
                     reference.child(key).updateChildren(postValues);
                     SharedPrefrences.saveUSer(model, getActivity());
+                    StudentViewFragment fragment = new StudentViewFragment();
+                    replaceFragment(fragment);
                 }
             }
 
@@ -248,6 +273,8 @@ public class AttachmentFragment extends Fragment {
 //                profilePic.setImageURI(mImageUri);
             final StorageReference imagePath = mFirebaseStorage.child("requests_attachments")
                     .child(mImageUri.getLastPathSegment());
+            progressDialog.setMessage("Uploading...");
+            progressDialog.show();
             imagePath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -257,17 +284,24 @@ public class AttachmentFragment extends Fragment {
                             Uri donwloadUrl = uri;
                             if (passportUrl == true){
                                 passport1 = donwloadUrl.toString();
+                                passTxt.setText("Uploaded");
                             }else if (iDurl == true){
                                 iD1 = donwloadUrl.toString();
+                                idTxt.setText("Uploaded");
                             }else if (sscUrl == true){
                                 ssc1 = donwloadUrl.toString();
+                                sscTxt.setText("Uploaded");
                             }else if (hsscUrl == true){
                                 hssc1 = donwloadUrl.toString();
+                                hsscTxt.setText("Uploaded");
                             }else if (baUrl == true){
                                 ba1 = donwloadUrl.toString();
+                                baTxt.setText("Uploaded");
                             }else if (maUrl == true){
                                 ma1 = donwloadUrl.toString();
+                                maTxt.setText("Uploaded");
                             }
+                            progressDialog.hide();
                             String imageUrl = donwloadUrl.toString();
                             Toast.makeText(getActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
                         }
@@ -314,6 +348,16 @@ public class AttachmentFragment extends Fragment {
                 Exception error = result.getError();
             }
         }
+    }
+
+
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.contentFrame, fragment);
+        fragmentTransaction.addToBackStack(fragment.toString());
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.commit();
     }
 
 }

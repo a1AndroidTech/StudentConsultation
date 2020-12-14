@@ -43,6 +43,7 @@ android:layout_centerVertical="true"            />
             android:src="@drawable/more_option"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:visibility="gone"
             />
 
     </RelativeLayout>
@@ -73,7 +74,7 @@ android:layout_centerVertical="true"            />
         app:abb_tabAnimation="slide"
         app:abb_tabColor="#CCFFFFFF"
         app:abb_tabColorSelected="#fd907e"
-        app:abb_tabs="@menu/tab_menu" />
+        app:abb_tabs="@menu/menu" />
 
 
 </RelativeLayout>

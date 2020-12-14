@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,9 +16,11 @@ import androidx.fragment.app.Fragment;
 
 import com.a1techandroid.studentconsultant.Adapters.Univeristy_adapter;
 import com.a1techandroid.studentconsultant.Models.QualificationModel;
+import com.a1techandroid.studentconsultant.Models.RequestModel;
 import com.a1techandroid.studentconsultant.Models.StudentProfileModel;
 import com.a1techandroid.studentconsultant.Models.Uni_Model;
 import com.a1techandroid.studentconsultant.Models.UserModel;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -37,14 +41,18 @@ public class StudentViewFragment extends Fragment {
     TextView baBoard, baSubject, baGrade, baYear;
     TextView maBoard, maSubject, maGrade, maYear;
 
+    TextView applyUni, applyScholorship;
+
     DatabaseReference reference;
     DatabaseReference reference1;
+    DatabaseReference reference2;
     FirebaseDatabase rootNode;
     StudentProfileModel uni_model;
     UserModel userModel;
     ArrayList<StudentProfileModel> dataList = new ArrayList();
     ArrayList<QualificationModel> modelList = new ArrayList<>();
-
+    ImageView ssc, hssc, ba, ma, passport;
+    RequestModel model1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,6 +60,7 @@ public class StudentViewFragment extends Fragment {
         rootNode=FirebaseDatabase.getInstance();
         reference=rootNode.getReference("StudentProfile");
         reference1=rootNode.getReference("StudentProfileQu");
+        reference2=rootNode.getReference("requests");
         userModel = SharedPrefrences.getUser(getActivity());
         initView(view);
         readValueFromFireBase();
@@ -97,6 +106,16 @@ public class StudentViewFragment extends Fragment {
         maGrade = view.findViewById(R.id.maGrade);
         maSubject = view.findViewById(R.id.maprogram);
         maYear = view.findViewById(R.id.maMarks);
+
+        applyUni = view.findViewById(R.id.uniName);
+        applyScholorship = view.findViewById(R.id.schName);
+
+        ssc = view.findViewById(R.id.ssc);
+        hssc = view.findViewById(R.id.hssc);
+        ba = view.findViewById(R.id.ba);
+        ma = view.findViewById(R.id.ma);
+        passport = view.findViewById(R.id.passport);
+
 
     }
 
@@ -259,7 +278,52 @@ public class StudentViewFragment extends Fragment {
             }
         }
 
+        reference2.child(userModel.getEmail().replace(".","")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                model1= snapshot.getValue(RequestModel.class);
+                applyUni.setText(model1.getUniName());
+                applyScholorship.setText(model1.getScName());
+                loadPictures(model1);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
+
+    public void loadPictures(RequestModel model){
+
+        if (model.getSsc() != ""){
+            Glide.with(getActivity())
+                    .load(model.getSsc())
+                    .centerCrop()
+                    .into(ssc);
+        }else if (model.getHssc() != ""){
+            Glide.with(getActivity())
+                    .load(model.getHssc())
+                    .centerCrop()
+                    .into(hssc);
+        }else if (model.getBa() != ""){
+            Glide.with(getActivity())
+                    .load(model.getBa())
+                    .centerCrop()
+                    .into(ba);
+        }else if (model.getMa() != ""){
+            Glide.with(getActivity())
+                    .load(model.getMa())
+                    .centerCrop()
+                    .into(ma);
+        }else if (model.getPassport() != ""){
+            Glide.with(getActivity())
+                    .load(model.getPassport())
+                    .centerCrop()
+                    .into(passport);
+        }
     }
 
 }

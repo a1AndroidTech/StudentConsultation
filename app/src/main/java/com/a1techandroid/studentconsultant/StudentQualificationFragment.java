@@ -53,12 +53,16 @@ public class StudentQualificationFragment extends Fragment {
     QualificationModel model1;
     private ProgressDialog mProgressDialog;
 
+    boolean isSSC, isHSSC, isBA, isMA;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.s_qualification_activity, container, false);
         rootNode = FirebaseDatabase.getInstance();
-        reference2=rootNode.getReference("StudentProfileQu");
+        reference2=rootNode.getReference("Stu" +
+                "" +
+                "dentProfileQu");
         mProgressDialog = new ProgressDialog(getActivity());
         model = SharedPrefrences.getUser(getActivity());
         initViews(view);
@@ -94,6 +98,52 @@ public class StudentQualificationFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP){
+                    isSSC = true;
+                    isHSSC = false;
+                    isBA = false;
+                    isMA = false;
+                    setDateFormat();
+                }
+                return false;
+            }
+        });
+        hsscPassingYear.setClickable(true);
+        hsscPassingYear.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP){
+                    isSSC = false;
+                    isHSSC = true;
+                    isBA = false;
+                    isMA = false;
+                    setDateFormat();
+                }
+                return false;
+            }
+        });
+        baPassingYear.setClickable(true);
+        baPassingYear.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP){
+                    isSSC = false;
+                    isHSSC = false;
+                    isBA = true;
+                    isMA = false;
+                    setDateFormat();
+                }
+                return false;
+            }
+        });
+        maPassingYear.setClickable(true);
+        maPassingYear.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP){
+                    isSSC = false;
+                    isHSSC = false;
+                    isBA = false;
+                    isMA = true;
                     setDateFormat();
                 }
                 return false;
@@ -114,23 +164,24 @@ public class StudentQualificationFragment extends Fragment {
                     mProgressDialog.setTitle("Updating Profile");
                     mProgressDialog.setMessage("please wait...");
                     mProgressDialog.show();
-                reference2.child(model.getEmail().replace(".", ""))
-                        .setValue(getqualificationModel()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    reference2.child(model.getEmail().replace(".", ""))
+                            .setValue(getqualificationModel()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
 
-                        if (task.isSuccessful()) {
-                            FragmentUniveristies fragmentUniveristies = new FragmentUniveristies();
-                            replaceFragment(fragmentUniveristies);
-                            Toast.makeText(getActivity(), "submitted successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            mProgressDialog.hide();
-                            Toast.makeText(getActivity(), "something went wrong", Toast.LENGTH_SHORT).show();
+                            if (task.isSuccessful()) {
+                                mProgressDialog.hide();
+                                FragmentUniveristies fragmentUniveristies = new FragmentUniveristies();
+                                replaceFragment(fragmentUniveristies);
+                                Toast.makeText(getActivity(), "submitted successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                mProgressDialog.hide();
+                                Toast.makeText(getActivity(), "something went wrong", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
 
-            }}
+                }}
         });
     }
 
@@ -221,30 +272,24 @@ public class StudentQualificationFragment extends Fragment {
         arrayAdapter.add("2018");
         arrayAdapter.add("2019");
 
-//        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//                sscPassingYear.setText(arrayAdapter.getItem(which));
-//                Toast.makeText(getActivity(), "1"+arrayAdapter.getItem(which), Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
         builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String strName = arrayAdapter.getItem(which);
-                AlertDialog.Builder builderInner = new AlertDialog.Builder(getActivity());
-                builderInner.setMessage(strName);
-                builderInner.setTitle("Your Selected Item is");
-                builderInner.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog,int which) {
-                        dialog.dismiss();
-                        Toast.makeText(getActivity(), "2"+arrayAdapter.getItem(which), Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builderInner.show();
+                if (isSSC){
+                    sscPassingYear.setText(arrayAdapter.getItem(which));
+
+                }else if (isHSSC){
+                    hsscPassingYear.setText(arrayAdapter.getItem(which));
+
+                }else if (isBA){
+                    baPassingYear.setText(arrayAdapter.getItem(which));
+
+                }else if (isMA){
+                    maPassingYear.setText(arrayAdapter.getItem(which));
+
+                }
             }
         });
         builderSingle.show();

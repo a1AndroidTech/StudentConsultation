@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.a1techandroid.studentconsultant.Fragments.ConsultantProfileMaking;
+import com.a1techandroid.studentconsultant.Fragments.ConsultantProfileView;
 import com.a1techandroid.studentconsultant.Fragments.FragmentHome;
 import com.a1techandroid.studentconsultant.Fragments.FragmentUniveristies;
 import com.a1techandroid.studentconsultant.Fragments.SettingFragment;
@@ -57,11 +59,25 @@ public class MainActivity extends AppCompatActivity {
         setUpAnimatedBar();
 
         if (userModel.getProfileStatus().equals("pending")){
-            StudentUpdateProfileFragment home= new StudentUpdateProfileFragment();
-            replaceFragment(home);
+
+            if (userModel.getUser_type() == 1){
+                StudentUpdateProfileFragment home= new StudentUpdateProfileFragment();
+                replaceFragment(home);
+            }else if (userModel.getUser_type() == 2){
+                ConsultantProfileMaking home= new ConsultantProfileMaking();
+                replaceFragment(home);
+            }
+
         }else {
-            StudentViewFragment home= new StudentViewFragment();
-            replaceFragment(home);
+
+            if (userModel.getUser_type() == 1){
+                StudentViewFragment home= new StudentViewFragment();
+                replaceFragment(home);
+            }else if (userModel.getUser_type() == 2){
+                ConsultantProfileView consultantProfileView = new ConsultantProfileView();
+                replaceFragment(consultantProfileView);
+            }
+
         }
 
 

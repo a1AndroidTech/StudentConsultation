@@ -12,8 +12,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.a1techandroid.studentconsultant.Adapters.AdminSideAdapter;
+import com.a1techandroid.studentconsultant.Adapters.ConsultantAdapter;
 import com.a1techandroid.studentconsultant.Adapters.StudentListAdapter;
 import com.a1techandroid.studentconsultant.Adapters.Univeristy_adapter;
+import com.a1techandroid.studentconsultant.ConsultantProfile;
+import com.a1techandroid.studentconsultant.Models.ConsultantProfileModel;
 import com.a1techandroid.studentconsultant.Models.Student_Model;
 import com.a1techandroid.studentconsultant.Models.Uni_Model;
 import com.a1techandroid.studentconsultant.Models.UserModel;
@@ -29,12 +32,12 @@ import java.util.ArrayList;
 
 public class FragmentConsultants extends Fragment {
     ListView listView;
-    Univeristy_adapter settingListAdapter;
-    ArrayList<UserModel> listofItems;
+    ConsultantAdapter settingListAdapter;
+    ArrayList<ConsultantProfileModel> listofItems;
     DatabaseReference reference;
     FirebaseDatabase rootNode;
     Uni_Model uni_model;
-    AdminSideAdapter studentListAdapter;
+    ConsultantAdapter studentListAdapter;
     private ProgressDialog mProgressDialog;
 
     @Override
@@ -68,10 +71,10 @@ public class FragmentConsultants extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()){
-                    UserModel uni_model=data.getValue(UserModel.class);
+                    ConsultantProfileModel uni_model=data.getValue(ConsultantProfileModel.class);
 ////                officers.setUid(snapshot.getKey());
                     listofItems.add(uni_model);
-                    studentListAdapter = new AdminSideAdapter(getActivity(), listofItems);
+                    studentListAdapter = new ConsultantAdapter(getActivity(), listofItems);
                     listView.setAdapter(studentListAdapter);
                     studentListAdapter.notifyDataSetChanged();
                     mProgressDialog.hide();

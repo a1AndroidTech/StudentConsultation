@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    android:background="@color/white"
+    >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white">
 
     <LinearLayout
@@ -57,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Please upload a valid password"
-
+                    android:id="@+id/pasTxt"
                     android:textColor="@color/black"
                     android:layout_marginTop="3dp"
                     />
@@ -122,6 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Please upload a valid ID not expired"
+                        android:id="@+id/idTxt"
 
                         android:textColor="@color/black"
                         android:layout_marginTop="3dp"
@@ -187,7 +195,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Please upload you SSC certificate"
-
+                        android:id="@+id/sscTxt"
                         android:textColor="@color/black"
                         android:layout_marginTop="3dp"
                         />
@@ -253,7 +261,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Please upload your HSSC certificate"
-
+                        android:id="@+id/hsscTxt"
                         android:textColor="@color/black"
                         android:layout_marginTop="3dp"
                         />
@@ -318,7 +326,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Please upload your BA cerfiticate"
-
+                        android:id="@+id/baTxt"
                         android:textColor="@color/black"
                         android:layout_marginTop="3dp"
                         />
@@ -382,7 +390,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Please upload MA certificate"
-
+                        android:id="@+id/maTxt"
                         android:textColor="@color/black"
                         android:layout_marginTop="3dp"
                         />
@@ -427,3 +435,4 @@
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
+</ScrollView>

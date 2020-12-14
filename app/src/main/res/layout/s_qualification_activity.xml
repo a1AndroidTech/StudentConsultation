@@ -65,6 +65,8 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
 
                 /><EditText
                 android:layout_width="match_parent"
@@ -75,15 +77,20 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
                 /><EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Grade/ Division"
+                android:imeOptions="actionNext"
                 android:id="@+id/sscGrade"
                 android:textColor="@color/black"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:digits="ABCDabcd"
+                android:singleLine="true"
                 /><EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,7 +99,9 @@
                 android:textColor="@color/black"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
+                android:imeOptions="actionNext"
                 android:layout_marginTop="5dp"
+                android:singleLine="true"
                 />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -124,10 +133,12 @@
                     android:layout_height="wrap_content"
                     android:hint="Board/ Univeristy"
                     android:id="@+id/hsscBoard"
+                    android:imeOptions="actionNext"
                     android:textColor="@color/black"
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
+                    android:singleLine="true"
 
                     /><EditText
                 android:layout_width="match_parent"
@@ -137,7 +148,9 @@
                 android:textColor="@color/black"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
+                android:imeOptions="actionNext"
                 android:layout_marginTop="5dp"
+                android:singleLine="true"
                 /><EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -146,7 +159,11 @@
                 android:textColor="@color/black"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
+                android:imeOptions="actionNext"
                 android:layout_marginTop="5dp"
+                android:singleLine="true"
+                android:digits="ABCDabcd"
+
                 /><EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -155,7 +172,9 @@
                 android:textColor="@color/black"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
+                android:imeOptions="actionNext"
                 android:layout_marginTop="5dp"
+                android:singleLine="true"
                 />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -201,8 +220,10 @@
                     android:id="@+id/baBoard"
                     android:textColor="@color/black"
                     android:layout_marginRight="5dp"
+                    android:imeOptions="actionNext"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
+                    android:singleLine="true"
 
                     /><EditText
                 android:layout_width="match_parent"
@@ -210,9 +231,11 @@
                 android:hint="Subjects"
                 android:id="@+id/baSubj"
                 android:textColor="@color/black"
+                android:imeOptions="actionNext"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:singleLine="true"
                 /><EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -220,23 +243,28 @@
                 android:id="@+id/baGrade"
                 android:textColor="@color/black"
                 android:layout_marginRight="5dp"
+                android:imeOptions="actionNext"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:singleLine="true"
+                android:digits="ABCDabcd"
                 /><EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Passing Year"
                 android:id="@+id/baPassingYear"
                 android:textColor="@color/black"
+                android:imeOptions="actionNext"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
+                android:singleLine="true"
                 android:layout_marginTop="5dp"
                 />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="310dp"
+            android:layout_height="250dp"
             android:layout_weight="1"
             android:elevation="12dp"
             app:cardCornerRadius="12dp"
@@ -267,6 +295,8 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
 
                     /><EditText
                 android:layout_width="match_parent"
@@ -276,7 +306,9 @@
                 android:textColor="@color/black"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
+                android:imeOptions="actionNext"
                 android:layout_marginTop="5dp"
+                android:singleLine="true"
                 /><EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -285,6 +317,9 @@
                 android:textColor="@color/black"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
+                android:digits="ABCDabcd"
                 android:layout_marginTop="5dp"
                 /><EditText
                 android:layout_width="match_parent"
@@ -293,7 +328,9 @@
                 android:id="@+id/maPassingYear"
                 android:textColor="@color/black"
                 android:layout_marginRight="5dp"
+                android:imeOptions="actionNext"
                 android:layout_marginLeft="5dp"
+                android:singleLine="true"
                 android:layout_marginTop="5dp"
                 />
             </LinearLayout>
