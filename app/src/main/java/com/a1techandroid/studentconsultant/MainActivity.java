@@ -128,8 +128,15 @@ public class MainActivity extends AppCompatActivity {
                             StudentUpdateProfileFragment home= new StudentUpdateProfileFragment();
                             replaceFragment(home);
                         }else {
-                            StudentViewFragment home= new StudentViewFragment();
-                            replaceFragment(home);
+
+                            if (userModel.getUser_type() == 1){
+                                StudentViewFragment home= new StudentViewFragment();
+                                replaceFragment(home);
+                            }else {
+                                ConsultantProfileView home= new ConsultantProfileView();
+                                replaceFragment(home);
+                            }
+
                         }
                         title.setText("Home");
                         break;

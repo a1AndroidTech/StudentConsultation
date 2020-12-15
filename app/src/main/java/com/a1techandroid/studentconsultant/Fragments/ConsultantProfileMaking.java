@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.a1techandroid.studentconsultant.Models.ConsultantProfileModel;
 import com.a1techandroid.studentconsultant.Models.StudentProfileModel;
@@ -181,9 +183,9 @@ public class ConsultantProfileMaking extends Fragment {
 
         } else {
             Double number = Double.parseDouble(""+ielts.getText().toString());
-            if (number > 5 ){
-                Toast.makeText(getActivity(), "Please Fill Correct Value", Toast.LENGTH_SHORT).show();
-            }else {
+//            if (number > 5 ){
+//                Toast.makeText(getActivity(), "Please Fill Correct Value", Toast.LENGTH_SHORT).show();
+//            }else {
 //                if (Double.parseDouble(reading.getText().toString()) > 5 && ) {
 //                    Toast.makeText(getActivity(), "Please Fill All Ielts Score Fields", Toast.LENGTH_SHORT).show();
 //
@@ -203,7 +205,7 @@ public class ConsultantProfileMaking extends Fragment {
                     });
                 }
 //            }
-            }
+//            }
     }
 
     public ConsultantProfileModel getPrfileModel(){
@@ -236,8 +238,8 @@ public class ConsultantProfileMaking extends Fragment {
                     model.setProfileStatus("Approved");
                     mRefe.child(key).updateChildren(postValues);
                     SharedPrefrences.saveUSer(model, getActivity());
-                    StudentViewFragment fragment = new StudentViewFragment();
-//                    replaceFragment(fragment);
+                    ConsultantProfileView fragment = new ConsultantProfileView();
+                    replaceFragment(fragment);
                 }
             }
 
@@ -286,6 +288,14 @@ public class ConsultantProfileMaking extends Fragment {
 
     }
 
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.contentFrame, fragment);
+        fragmentTransaction.addToBackStack(fragment.toString());
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.commit();
+    }
 
 
 

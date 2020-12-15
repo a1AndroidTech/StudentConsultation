@@ -193,9 +193,19 @@ public class AttachmentFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (passport1.equals("") && iD1.equals("") && ssc1.equals("") && hssc1.equals("") && ba1.equals("") && ma1.equals("")){
+                if (passport1.equals("")){
                     Toast.makeText(getActivity(), "Please Upload All Documents", Toast.LENGTH_SHORT).show();
-                }else {
+                } else if (iD1.equals("")){
+                    Toast.makeText(getActivity(), "Please Upload All Documents", Toast.LENGTH_SHORT).show();
+                }else if (ssc1.equals("")){
+                    Toast.makeText(getActivity(), "Please Upload All Documents", Toast.LENGTH_SHORT).show();
+                }else if (hssc1.equals("")){
+                    Toast.makeText(getActivity(), "Please Upload All Documents", Toast.LENGTH_SHORT).show();
+                }else if (ba1.equals("")){
+                    Toast.makeText(getActivity(), "Please Upload All Documents", Toast.LENGTH_SHORT).show();
+                }else if (ma1.equals("")){
+                    Toast.makeText(getActivity(), "Please Upload All Documents", Toast.LENGTH_SHORT).show();
+                } else {
                     model.setPassport(passport1);
                     model.setId(iD1);
                     model.setSsc(ssc1);

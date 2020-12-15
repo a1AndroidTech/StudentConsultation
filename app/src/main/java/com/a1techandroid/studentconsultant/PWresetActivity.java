@@ -1,5 +1,6 @@
 package com.a1techandroid.studentconsultant;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class PWresetActivity extends AppCompatActivity {
     TextView BackToSignIn;
     private FirebaseAuth auth;
     ProgressBar progressBar;
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -36,6 +38,7 @@ public class PWresetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         auth=FirebaseAuth.getInstance();
         setContentView(R.layout.activity_pwreset);
+        progressDialog = new ProgressDialog(PWresetActivity.this);
         initializeGUI();
 
         btnReset.setOnClickListener(new View.OnClickListener() {
@@ -72,14 +75,19 @@ resetPassword(emailTxt);
 
     }
     public void resetPassword(String email){
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        progressDialog.setMessage("Sending Reset EMail");
+        progressDialog.show();
         auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            progressDialog.hide();
                             Toast.makeText(PWresetActivity.this, "We have sent you instructions on your email to reset your password!", Toast.LENGTH_SHORT).show();
                         } else {
+                            progressDialog.hide();
+
                             Toast.makeText(PWresetActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
                         }
 
