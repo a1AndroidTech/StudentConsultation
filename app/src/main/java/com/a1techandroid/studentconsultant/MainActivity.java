@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.a1techandroid.studentconsultant.CHat.MainActivityMessage;
 import com.a1techandroid.studentconsultant.Fragments.ConsultantProfileMaking;
 import com.a1techandroid.studentconsultant.Fragments.ConsultantProfileView;
 import com.a1techandroid.studentconsultant.Fragments.FragmentHome;
@@ -78,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(consultantProfileView);
             }
 
+        }
+
+        if (SharedPrefrences.getApproved(getApplicationContext()).getStatus().equals("pending")){
+           moreOption.setVisibility(View.GONE);
+        }else {
+            moreOption.setVisibility(View.VISIBLE);
         }
 
 
@@ -157,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         moreOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, StudentUpdateProfileFragment.class));
+                startActivity(new Intent(MainActivity.this, MainActivityMessage.class));
             }
         });
     }

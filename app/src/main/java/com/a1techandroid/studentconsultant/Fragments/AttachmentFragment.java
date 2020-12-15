@@ -69,6 +69,7 @@ public class AttachmentFragment extends Fragment {
     String passport1 = "", iD1 = "", ssc1 = "", hssc1 = "", ba1 = "", ma1 = "";
     RequestModel model;
     TextView passTxt, idTxt, sscTxt, hsscTxt, baTxt, maTxt;
+    UserModel userModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +77,7 @@ public class AttachmentFragment extends Fragment {
         View view = inflater.inflate(R.layout.attachment_fragment, container, false);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
+        userModel = SharedPrefrences.getUser(getActivity());
         mRefe = mDatabase.getReference("requests");
         reference = mDatabase.getReference("Student");
 //        reference1 = mDatabase.getReference("ApplyFor");

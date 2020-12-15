@@ -19,6 +19,7 @@ import com.a1techandroid.studentconsultant.Fragments.AttachmentFragment;
 import com.a1techandroid.studentconsultant.Models.RequestModel;
 import com.a1techandroid.studentconsultant.Models.Scholorship_model;
 import com.a1techandroid.studentconsultant.Models.Uni_Model;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.Serializable;
 
@@ -55,7 +56,7 @@ public class ScholorshipDetailActivity extends Fragment {
         ApplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestModel requestModel = new RequestModel(SName.getText().toString(), UName.getText().toString(), SType.getText().toString(), SDate.getText().toString(),"", "", "", "", "", "", "");
+                RequestModel requestModel = new RequestModel(SName.getText().toString(), UName.getText().toString(), SType.getText().toString(), SDate.getText().toString(),"", "", "", "", "", "", "", FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".",""), FirebaseAuth.getInstance().getCurrentUser().getUid());
                 AttachmentFragment fragment=new AttachmentFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("key", (Serializable) requestModel);
@@ -64,6 +65,8 @@ public class ScholorshipDetailActivity extends Fragment {
             }
         });
     }
+
+
 
     public void replaceFragment(Fragment fragment, Context context) {
         FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();

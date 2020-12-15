@@ -14,12 +14,15 @@ public class RequestModel implements Serializable {
     String ba;
     String ma;
     String status;
+    String userID;
+    String userName;
 
     public RequestModel(){
 
     }
 
-    public RequestModel(String uniName, String scName, String stype, String SDate, String passport, String id, String ssc, String hssc, String ba, String ma, String status) {
+
+    public RequestModel(String uniName, String scName, String stype, String SDate, String passport, String id, String ssc, String hssc, String ba, String ma, String status, String userID, String userName) {
         this.uniName = uniName;
         this.scName = scName;
         Stype = stype;
@@ -31,7 +34,10 @@ public class RequestModel implements Serializable {
         this.ba = ba;
         this.ma = ma;
         this.status = status;
+        this.userID = userID;
+        this.userName = userName;
     }
+
 
     public String getUniName() {
         return uniName;
@@ -119,5 +125,21 @@ public class RequestModel implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
