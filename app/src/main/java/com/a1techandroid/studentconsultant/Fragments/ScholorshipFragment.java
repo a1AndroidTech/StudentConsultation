@@ -49,6 +49,7 @@ public class ScholorshipFragment extends Fragment {
         initView(view);
 //        addUni();
         readValueFromFireBase();
+        addUni();
         return view;
     }
 
@@ -67,7 +68,14 @@ public class ScholorshipFragment extends Fragment {
 
     public void addUni(){
 //        scholorship_model = new Scholorship_model("Eiffel Excellence Scholarship Programme", "22-10-2021","Berlin School of Business and Innovation");
-
+        listofItems.add(new Scholorship_model("Eiffel Excellence Scholarship Programme","22-10-2021", "Georg-August-Universität Göttingen"));
+        listofItems.add(new Scholorship_model("Fulbright Scholarship","21-03-2021", "Georg-August-Universität Göttingen"));
+        listofItems.add(new Scholorship_model("Chevening Scholarship","22-10-2021", "Georg-August-Universität Göttingen"));
+        listofItems.add(new Scholorship_model("Chevening Scholarship","12-07-2021", "Arden University Berlin"));
+        listofItems.add(new Scholorship_model("Commonwealth Scholarship","12-07-2021", "Arden University Berlin"));
+        listofItems.add(new Scholorship_model("Eiffel Excellence Scholarship Programme","11-10-2021", "University of Applied Sciences Europe"));
+        listofItems.add(new Scholorship_model("Eiffel Excellence Scholarship Programme","05-06-2021", "University of Applied Sciences Europe"));
+        listofItems.add(new Scholorship_model("Chevening Scholarship","22-10-2021", "University of Applied Sciences Europe"));
         for (int i=0; i<listofItems.size(); i++){
             scholorship_model = listofItems.get(i);
             reference.child(scholorship_model.getUniName()).child(reference.push().getKey().toString())

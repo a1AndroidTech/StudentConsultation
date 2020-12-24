@@ -45,6 +45,7 @@
                 android:textSize="18sp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
+                android:layout_marginLeft="10dp"
                 />
 
             <TextView
@@ -81,6 +82,7 @@
                 android:textSize="18sp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
+                android:layout_marginLeft="10dp"
                 />
 
             <TextView
@@ -117,6 +119,7 @@
                 android:textSize="18sp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
+                android:layout_marginLeft="10dp"
                 />
 
             <TextView
@@ -151,6 +154,7 @@
                 android:textColor="@color/gray_color"
                 android:textSize="18sp"
                 android:layout_marginTop="4dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginBottom="4dp"
                 />
 
@@ -167,6 +171,45 @@
                 android:layout_marginBottom="4dp"
                 />
         </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/border_layout"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile Status"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textColor="@color/gray_color"
+                android:textSize="18sp"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="4dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="pending"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="18sp"
+                android:id="@+id/status"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -202,6 +245,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginLeft="10dp"
+
                 />
         </LinearLayout>
 
@@ -274,6 +318,8 @@
                             android:layout_marginTop="4dp"
                             android:layout_marginBottom="4dp"
                             android:layout_marginLeft="10dp"
+                            android:layout_gravity="center"
+
                             />
                     </LinearLayout>
                     <LinearLayout
@@ -310,6 +356,8 @@
                             android:layout_marginTop="4dp"
                             android:layout_marginBottom="4dp"
                             android:layout_marginLeft="10dp"
+                            android:layout_gravity="center"
+
                             />
                     </LinearLayout>
 
@@ -356,6 +404,8 @@
                             android:layout_marginTop="4dp"
                             android:layout_marginBottom="4dp"
                             android:layout_marginLeft="10dp"
+                            android:layout_gravity="center"
+
                             />
                     </LinearLayout>
                     <LinearLayout
@@ -392,6 +442,8 @@
                             android:layout_marginTop="4dp"
                             android:layout_marginBottom="4dp"
                             android:layout_marginLeft="10dp"
+                            android:layout_gravity="center"
+
                             />
                     </LinearLayout>
 
@@ -430,6 +482,8 @@
                             android:layout_marginTop="4dp"
                             android:layout_marginBottom="4dp"
                             android:layout_marginLeft="10dp"
+                            android:layout_gravity="center"
+
                             />
                     </LinearLayout>
 

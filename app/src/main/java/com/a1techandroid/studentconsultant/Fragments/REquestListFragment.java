@@ -54,10 +54,13 @@ ListView listView;
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 RequestModel models=snapshot.getValue(RequestModel.class);
 //                officers.setUid(snapshot.getKey());
-                list.add(models);
-                requestAdapter = new RequestAdapter(getActivity(), list);
-                listView.setAdapter(requestAdapter);
-                requestAdapter.notifyDataSetChanged();
+                if (models.getStatus().equals("pending")){
+                    list.add(models);
+                    requestAdapter = new RequestAdapter(getActivity(), list);
+                    listView.setAdapter(requestAdapter);
+                    requestAdapter.notifyDataSetChanged();
+                }
+
             }
 
             @Override

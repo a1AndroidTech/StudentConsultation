@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class StudentQualificationFragment extends Fragment {
     EditText sscGrade, hsscGrade, baGrade, maGrade ;
     EditText sscPassingYear, hsscPassingYear, baPassingYear, maPassingYear;
     CardView Submit;
+    CheckBox checkBox, checkBox1;
 
     DatabaseReference reference, reference2;
     FirebaseDatabase rootNode;
@@ -54,6 +56,7 @@ public class StudentQualificationFragment extends Fragment {
     private ProgressDialog mProgressDialog;
 
     boolean isSSC, isHSSC, isBA, isMA;
+    CardView baCard, maCard;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,6 +95,10 @@ public class StudentQualificationFragment extends Fragment {
         hsscPassingYear = view.findViewById(R.id.hsscPassingYear);
         baPassingYear = view.findViewById(R.id.baPassingYear);
         maPassingYear = view.findViewById(R.id.maPassingYear);
+        checkBox=view.findViewById(R.id.item_check);
+        checkBox1=view.findViewById(R.id.item_check2);
+        baCard=view.findViewById(R.id.baCard);
+        maCard=view.findViewById(R.id.maCard);
 
         sscPassingYear.setClickable(true);
         sscPassingYear.setOnTouchListener(new View.OnTouchListener() {
@@ -150,6 +157,35 @@ public class StudentQualificationFragment extends Fragment {
             }
         });
 
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox checkBox1 = (CheckBox)v;
+                if(checkBox1.isChecked()){
+                    checkBox.setChecked(true);
+                    baCard.setVisibility(View.VISIBLE);
+                }else {
+                    checkBox.setChecked(false);
+                    baCard.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        checkBox1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox checkBox1 = (CheckBox)v;
+                if(checkBox1.isChecked()){
+                    checkBox.setChecked(true);
+                    maBoard.setVisibility(View.VISIBLE);
+                }else {
+                    checkBox.setChecked(false);
+                    maBoard.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
         Submit = view.findViewById(R.id.nextButton);
     }
 
@@ -158,7 +194,7 @@ public class StudentQualificationFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (getqualificationModel().size() < 4){
+                if (checkBox.isChecked()  && checkBox1.isChecked() && getqualificationModel().size() < 4){
                     Toast.makeText(getActivity(), "Please Fill First All Acedamic Details", Toast.LENGTH_SHORT).show();
                 }else {
                     mProgressDialog.setTitle("Updating Profile");
@@ -222,13 +258,13 @@ public class StudentQualificationFragment extends Fragment {
             list.add(model1);
         }
 
-        if (baB.equals("") && baS.equals("") && baG.equals("") && baP.equals("")){
+        if (checkBox.isChecked() && baB.equals("") && baS.equals("") && baG.equals("") && baP.equals("")){
 //            Toast.makeText(getActivity(), "Please Enter BA Details", Toast.LENGTH_SHORT).show();
         }else {
             model1 = new QualificationModel("BA", baB, baS, baG, baP);
             list.add(model1);
         }
-        if (maB.equals("") && maS.equals("") && maG.equals("") && maP.equals("")){
+        if (checkBox1.isChecked() && maB.equals("") && maS.equals("") && maG.equals("") && maP.equals("")){
 //            Toast.makeText(getActivity(), "Please Enter MA Details", Toast.LENGTH_SHORT).show();
         }else {
             model1 = new QualificationModel("MA", maB, maS, maG, maP);

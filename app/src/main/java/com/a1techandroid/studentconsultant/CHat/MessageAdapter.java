@@ -14,25 +14,29 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
-    public static final int FIRST_TYPE = 0, SECOND_TYPE = 1;
+    public static final int FIRST_TYPE = 1, SECOND_TYPE = 2;
     public MessageAdapter(Context context, int resource, List<FriendlyMessage> objects) {
         super(context, resource, objects);
     }
 
-//    @Override
-//    public int getItemViewType(int position) {
-////        final ChatMessageModel chatHistory = chatList.get(position);
-////        if (chatHistory.getFrom().equals(LoginedId)) {
-////            return FIRST_TYPE;
-////        } else {
-////            return SECOND_TYPE;
-////        }
-//    }
+    @Override
+    public int getItemViewType(int position) {
+//        final ChatMessageModel chatHistory = chatList.get(position);
+        if (getItem(position).getType().equals("1")) {
+            return FIRST_TYPE;
+        } else {
+            return SECOND_TYPE;
+        }
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.item_message, parent, false);
+            if (getItemViewType(position) == FIRST_TYPE){
+                convertView = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.item_message, parent, false);
+            }else if (getItemViewType(position) == SECOND_TYPE){
+                convertView = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.receiver_type_message, parent, false);
+            }
         }
 
         ImageView photoImageView = convertView.findViewById(R.id.photoImageView);
@@ -53,9 +57,9 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
             photoImageView.setVisibility(View.GONE);
 
         }
-        messageTextView.setText(message.getText());
+        messageTextView.setText(message.getName());
 
-        authorTextView.setText(message.getName());
+        authorTextView.setText(message.getText());
 
         return convertView;
     }

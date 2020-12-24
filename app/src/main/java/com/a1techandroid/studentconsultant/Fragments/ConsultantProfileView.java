@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.a1techandroid.studentconsultant.ConsultantProfile;
+import com.a1techandroid.studentconsultant.MainActivity;
 import com.a1techandroid.studentconsultant.Models.ConsultantProfileModel;
 import com.a1techandroid.studentconsultant.Models.StudentProfileModel;
 import com.a1techandroid.studentconsultant.Models.UserModel;
@@ -23,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class ConsultantProfileView extends Fragment {
-    TextView nameTxt, emailTxt, phoneTxt, cgpaText, ieltsTxt;
+    TextView nameTxt, emailTxt, phoneTxt, cgpaText, ieltsTxt, statusProfile;
     TextView readingTx, listeningTx, writingTx, speakingTx, pManagment;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mRefe;
@@ -41,6 +42,13 @@ public class ConsultantProfileView extends Fragment {
         userModel = SharedPrefrences.getUser(getActivity());
         initView(view);
         readValueFromFireBase();
+        if (!FirebaseAuth.getInstance().getCurrentUser().getEmail().equals("admin@gmail.com")){
+        if (userModel.getProfileStatus().equals("pending")){
+            MainActivity.moreOption.setVisibility(View.GONE);
+        }else {
+            MainActivity.moreOption.setVisibility(View.VISIBLE);
+        }
+        }
         return view;
     }
 
@@ -57,6 +65,7 @@ public class ConsultantProfileView extends Fragment {
         speakingTx = view.findViewById(R.id.speakingEt);
         listeningTx = view.findViewById(R.id.listeningEt);
         pManagment = view.findViewById(R.id.pManagment);
+        statusProfile = view.findViewById(R.id.status);
 
     }
 
@@ -91,6 +100,7 @@ public class ConsultantProfileView extends Fragment {
         writingTx.setText(uni_model.getMarkeetSearch());
         speakingTx.setText(uni_model.getCommunSkill());
         pManagment.setText(uni_model.getpManagment());
+        statusProfile.setText(uni_model.getStatus());
 
     }
 

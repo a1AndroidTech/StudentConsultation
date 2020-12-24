@@ -33,7 +33,7 @@ import java.util.ArrayList;
 public class FragmentConsultants extends Fragment {
     ListView listView;
     ConsultantAdapter settingListAdapter;
-    ArrayList<ConsultantProfileModel> listofItems;
+    ArrayList<UserModel> listofItems;
     DatabaseReference reference;
     FirebaseDatabase rootNode;
     Uni_Model uni_model;
@@ -71,7 +71,7 @@ public class FragmentConsultants extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()){
-                    ConsultantProfileModel uni_model=data.getValue(ConsultantProfileModel.class);
+                    UserModel uni_model=data.getValue(UserModel.class);
 ////                officers.setUid(snapshot.getKey());
                     listofItems.add(uni_model);
                     studentListAdapter = new ConsultantAdapter(getActivity(), listofItems);

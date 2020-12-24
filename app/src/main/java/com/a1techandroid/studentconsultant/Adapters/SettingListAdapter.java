@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -25,6 +26,7 @@ import com.a1techandroid.studentconsultant.Fragments.FragmentStudents;
 import com.a1techandroid.studentconsultant.Fragments.REquestListFragment;
 import com.a1techandroid.studentconsultant.LoginActivity;
 import com.a1techandroid.studentconsultant.MainActivity;
+import com.a1techandroid.studentconsultant.Models.UserModel;
 import com.a1techandroid.studentconsultant.R;
 import com.a1techandroid.studentconsultant.SharedPrefrences;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,6 +41,7 @@ import java.util.ArrayList;
 public class SettingListAdapter  extends BaseAdapter {
     Context context;
     ArrayList<String> list= new ArrayList<>();
+    UserModel userModel;
     @Override
     public int getCount() {
         return list.size();
@@ -47,6 +50,8 @@ public class SettingListAdapter  extends BaseAdapter {
     public SettingListAdapter(Context context, ArrayList<String> list1){
         this.context = context;
         this.list = list1;
+        userModel = SharedPrefrences.getUser(context);
+
     }
 
     @Override
@@ -85,8 +90,6 @@ public class SettingListAdapter  extends BaseAdapter {
 
                 if (FirebaseAuth.getInstance().getCurrentUser().getEmail().equals("admin@gmail.com")){
                     if (position == 0){
-
-                    }else if (position == 1){
                         AboutAppfragment fragment = new AboutAppfragment();
                         FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -94,26 +97,24 @@ public class SettingListAdapter  extends BaseAdapter {
                         fragmentTransaction.addToBackStack(fragment.toString());
                         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                         fragmentTransaction.commit();
-                    }else if (position == 2){
+                    }else if (position == 1){
                         Intent share = new Intent(Intent.ACTION_SEND);
                         share.setType("text/plain");
                         share.putExtra(Intent.EXTRA_TEXT, "I'm being sent!!");
                         context.startActivity(Intent.createChooser(share, "Share Text"));
-                    }else if (position == 3){
+                    }else if (position == 2){
                         FirebaseAuth.getInstance().signOut();
                         context.startActivity(new Intent(context, LoginActivity.class));
                     }
                 }else {
 
                     if (SharedPrefrences.getUser(context).getUser_type() == 1){
-                        if (position == 0){
-
-                        }else if (position == 1){
+                         if (position == 0){
                             resetPasswordDialog();
-                        }else if (position == 2){
+                        }else if (position == 1){
                             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.kiloo.subwaysurf")));
 
-                        }else if (position == 3){
+                        }else if (position == 2){
                             AboutAppfragment fragment = new AboutAppfragment();
                             FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -122,33 +123,46 @@ public class SettingListAdapter  extends BaseAdapter {
                             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                             fragmentTransaction.commit();
 
-                        }else if (position == 4){
+                        }else if (position == 3){
 
                             Intent share = new Intent(Intent.ACTION_SEND);
                             share.setType("text/plain");
                             share.putExtra(Intent.EXTRA_TEXT, "I'm being sent!!");
                             context.startActivity(Intent.createChooser(share, "Share Text"));
-                        }else if (position == 5){
+                        }else if (position == 4){
                             FirebaseAuth.getInstance().signOut();
                             context.startActivity(new Intent(context, LoginActivity.class));
                         }
                     }else {
                         if (position ==  0){
-                            REquestListFragment fragment = new REquestListFragment();
-                            FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.contentFrame, fragment);
-                            fragmentTransaction.addToBackStack(fragment.toString());
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                            fragmentTransaction.commit();
+                            if (userModel.getProfileStatus().equals("Submitted")){
+                                Toast.makeText(context, "Wait for Admin Approval", Toast.LENGTH_SHORT).show();
+//                                if (userModel.getProfileStatus().equals("Pending")){
+//                                    Toast.makeText(context, "Wait for Admin Approval", Toast.LENGTH_SHORT).show();
+//                                }else {
+//                                    REquestListFragment fragment = new REquestListFragment();
+//                                    FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
+//                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+//                                    fragmentTransaction.addToBackStack(fragment.toString());
+//                                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                                    fragmentTransaction.commit();
+//                                }
+                            }else {
+                                REquestListFragment fragment = new REquestListFragment();
+                                FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.contentFrame, fragment);
+                                fragmentTransaction.addToBackStack(fragment.toString());
+                                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                                fragmentTransaction.commit();
+                            }
+
                         }else if (position == 1){
-
-                        }else if (position == 2){
                             resetPasswordDialog();
-                        }else if (position == 3){
+                        }else if (position == 2){
                             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.kiloo.subwaysurf")));
-
-                        }else if (position == 4){
+                        }else if (position == 3){
                             AboutAppfragment fragment = new AboutAppfragment();
                             FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -156,16 +170,15 @@ public class SettingListAdapter  extends BaseAdapter {
                             fragmentTransaction.addToBackStack(fragment.toString());
                             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                             fragmentTransaction.commit();
-
-                        }else if (position == 5){
-
+                        }else if (position == 4){
                             Intent share = new Intent(Intent.ACTION_SEND);
                             share.setType("text/plain");
                             share.putExtra(Intent.EXTRA_TEXT, "I'm being sent!!");
                             context.startActivity(Intent.createChooser(share, "Share Text"));
-                        }else if (position == 6){
+                        }else if (position == 5){
                             FirebaseAuth.getInstance().signOut();
                             context.startActivity(new Intent(context, LoginActivity.class));
+                            ((AppCompatActivity)context).finish();
                         }
                     }
 

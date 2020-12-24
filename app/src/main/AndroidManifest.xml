@@ -33,6 +33,8 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".CHat.MainActivityMessage"/>
 
+        <activity android:name=".CHat.ChatListScreen"/>
+
 
     </application>
 

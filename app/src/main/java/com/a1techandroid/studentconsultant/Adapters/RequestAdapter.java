@@ -1,4 +1,4 @@
-package com.a1techandroid.studentconsultant.Adapters;
+        package com.a1techandroid.studentconsultant.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,10 +11,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.a1techandroid.studentconsultant.MainActivity;
+import com.a1techandroid.studentconsultant.Models.ChatUSer;
 import com.a1techandroid.studentconsultant.Models.RequestModel;
 import com.a1techandroid.studentconsultant.Models.Scholorship_model;
 import com.a1techandroid.studentconsultant.Models.UserModel;
@@ -38,6 +40,7 @@ public class RequestAdapter  extends BaseAdapter {
     ArrayList<RequestModel> list= new ArrayList<RequestModel>();
     private FirebaseDatabase mDatabase;
     private DatabaseReference mRefe;
+    private DatabaseReference mRefe1;
 
     public RequestAdapter(Context context, ArrayList<RequestModel> list){
         mDatabase = FirebaseDatabase.getInstance();
@@ -97,30 +100,45 @@ public class RequestAdapter  extends BaseAdapter {
 //                    applesQuery = ref.child("Student").orderByChild("email").equalTo(model.getEmail());
 //
 //                }else if (model.getUser_type() == 2) {
-                applesQuery = ref.child("requests").child(model.getUserID());
+                applesQuery = ref.child("requests").orderByChild("userName").equalTo(model.getUserName());
 //                }
 
-                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                applesQuery.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        for (DataSnapshot appleSnapshot: snapshot.getChildren()) {
                             Map<String, Object> postValues = new HashMap<String,Object>();
-                            String key = appleSnapshot.getRef().getKey();
+                            String key = snapshot.getRef().getKey();
                             postValues.put("status", "Approved");
-                            RequestModel model = appleSnapshot.getValue(RequestModel.class);
-                            model.setStatus("Approved");
-                            ref.child(key).updateChildren(postValues);
-                            SharedPrefrences.saveApprovedREquest(model, context);
+                            RequestModel model1 = snapshot.getValue(RequestModel.class);
+                            model1.setStatus("Approved");
+                            ref.child("requests").child(model.getUserName().replace(".","")).updateChildren(postValues);
+                            list.remove(model);
+                        ChatUSer chatUSer = new ChatUSer(model.getUserName(), model.getUserID(), "Student");
+                            ref.child("ChatUser").child(ref.push().getKey()).setValue(chatUSer);
+                        SharedPrefrences.saveApprovedREquest(model1, context);
                             holder.accept.setVisibility(View.GONE);
 //                            notifyDataSetChanged();
-                        }
+//                        }
+
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(context, "something went wrong", Toast.LENGTH_SHORT).show();
+                    public void onCancelled(@NonNull DatabaseError error) {
+
                     }
                 });
+
+    //                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    //                    @Override
+    //                    public void onDataChange(DataSnapshot dataSnapshot) {
+    //                    }
+    //
+    //                    @Override
+    //                    public void onCancelled(DatabaseError databaseError) {
+    //                        Toast.makeText(context, "something went wrong", Toast.LENGTH_SHORT).show();
+    //                    }
+    //                });
             }
         });
 

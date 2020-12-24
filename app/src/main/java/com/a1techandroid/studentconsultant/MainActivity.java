@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.a1techandroid.studentconsultant.CHat.ChatListScreen;
 import com.a1techandroid.studentconsultant.CHat.MainActivityMessage;
 import com.a1techandroid.studentconsultant.Fragments.ConsultantProfileMaking;
 import com.a1techandroid.studentconsultant.Fragments.ConsultantProfileView;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     DatabaseReference reference;
     DatabaseReference ref;
-    ImageView moreOption;
+   public static ImageView moreOption;
     public static TextView title;
     String isNewUser;
     UserModel userModel;
@@ -81,11 +82,14 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        if (SharedPrefrences.getApproved(getApplicationContext()).getStatus().equals("pending")){
-           moreOption.setVisibility(View.GONE);
-        }else {
-            moreOption.setVisibility(View.VISIBLE);
-        }
+//        if (SharedPrefrences.getApproved(getApplicationContext()) != null){
+//            if (SharedPrefrences.getApproved(getApplicationContext()).getStatus().equals("pending")){
+//                moreOption.setVisibility(View.GONE);
+//            }else {
+//                moreOption.setVisibility(View.VISIBLE);
+//            }
+//        }
+
 
 
 
@@ -132,8 +136,15 @@ public class MainActivity extends AppCompatActivity {
                 switch (newTab.getId()) {
                     case R.id.home:
                         if (userModel.getProfileStatus().equals("pending")){
-                            StudentUpdateProfileFragment home= new StudentUpdateProfileFragment();
-                            replaceFragment(home);
+
+                            if (userModel.getUser_type() == 1){
+                                StudentUpdateProfileFragment home= new StudentUpdateProfileFragment();
+                                replaceFragment(home);
+                            }else {
+                                ConsultantProfileMaking home= new ConsultantProfileMaking();
+                                replaceFragment(home);
+                            }
+
                         }else {
 
                             if (userModel.getUser_type() == 1){
@@ -164,7 +175,14 @@ public class MainActivity extends AppCompatActivity {
         moreOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MainActivityMessage.class));
+
+                if (userModel.getUser_type() == 1){
+                    startActivity(new Intent(MainActivity.this, MainActivityMessage.class));
+
+                }else {
+                    startActivity(new Intent(MainActivity.this, ChatListScreen.class));
+
+                }
             }
         });
     }

@@ -203,10 +203,6 @@ public class AttachmentFragment extends Fragment {
                     Toast.makeText(getActivity(), "Please Upload All Documents", Toast.LENGTH_SHORT).show();
                 }else if (hssc1.equals("")){
                     Toast.makeText(getActivity(), "Please Upload All Documents", Toast.LENGTH_SHORT).show();
-                }else if (ba1.equals("")){
-                    Toast.makeText(getActivity(), "Please Upload All Documents", Toast.LENGTH_SHORT).show();
-                }else if (ma1.equals("")){
-                    Toast.makeText(getActivity(), "Please Upload All Documents", Toast.LENGTH_SHORT).show();
                 } else {
                     model.setPassport(passport1);
                     model.setId(iD1);

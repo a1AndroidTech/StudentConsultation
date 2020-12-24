@@ -41,11 +41,12 @@ public class StudentViewFragment extends Fragment {
     TextView baBoard, baSubject, baGrade, baYear;
     TextView maBoard, maSubject, maGrade, maYear;
 
-    TextView applyUni, applyScholorship;
+    TextView applyUni, applyScholorship, status;
 
     DatabaseReference reference;
     DatabaseReference reference1;
     DatabaseReference reference2;
+    DatabaseReference reference3;
     FirebaseDatabase rootNode;
     StudentProfileModel uni_model;
     UserModel userModel;
@@ -61,9 +62,21 @@ public class StudentViewFragment extends Fragment {
         reference=rootNode.getReference("StudentProfile");
         reference1=rootNode.getReference("StudentProfileQu");
         reference2=rootNode.getReference("requests");
+        reference3=rootNode.getReference("Student");
         userModel = SharedPrefrences.getUser(getActivity());
         initView(view);
         readValueFromFireBase();
+
+        if (!FirebaseAuth.getInstance().getCurrentUser().getEmail().equals("admin@gmail.com")){
+            if (userModel.getProfileStatus().equals("pending")){
+                MainActivity.moreOption.setVisibility(View.GONE);
+            }else {
+                MainActivity.moreOption.setVisibility(View.VISIBLE);
+
+            }
+        }
+
+
         return view;
     }
 
@@ -109,6 +122,7 @@ public class StudentViewFragment extends Fragment {
 
         applyUni = view.findViewById(R.id.uniName);
         applyScholorship = view.findViewById(R.id.schName);
+        status = view.findViewById(R.id.status);
 
         ssc = view.findViewById(R.id.ssc);
         hssc = view.findViewById(R.id.hssc);
@@ -192,6 +206,7 @@ public class StudentViewFragment extends Fragment {
 //                officers.setUid(snapshot.getKey());
 //                dataList.add(uni_model);
                 setValue(uni_model);
+                getUSerDetail();
             }
 
             @Override
@@ -282,9 +297,11 @@ public class StudentViewFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 model1= snapshot.getValue(RequestModel.class);
-                applyUni.setText(model1.getUniName());
-                applyScholorship.setText(model1.getScName());
-                loadPictures(model1);
+                if (model1 != null) {
+                    applyUni.setText(model1.getUniName());
+                    applyScholorship.setText(model1.getScName());
+                    loadPictures(model1);
+                }
             }
 
             @Override
@@ -303,27 +320,69 @@ public class StudentViewFragment extends Fragment {
                     .load(model.getSsc())
                     .centerCrop()
                     .into(ssc);
-        }else if (model.getHssc() != ""){
+        }
+
+
+            if (model.getHssc() != ""){
             Glide.with(getActivity())
                     .load(model.getHssc())
                     .centerCrop()
                     .into(hssc);
-        }else if (model.getBa() != ""){
+        }
+
+            if (model.getBa() != ""){
             Glide.with(getActivity())
                     .load(model.getBa())
                     .centerCrop()
                     .into(ba);
-        }else if (model.getMa() != ""){
+        }
+
+            if (model.getMa() != ""){
             Glide.with(getActivity())
                     .load(model.getMa())
                     .centerCrop()
                     .into(ma);
-        }else if (model.getPassport() != ""){
+        }
+
+            if (model.getPassport() != ""){
             Glide.with(getActivity())
                     .load(model.getPassport())
                     .centerCrop()
                     .into(passport);
         }
+    }
+
+    public void getUSerDetail(){
+        reference3.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                UserModel userModel1 = snapshot.getValue(UserModel.class);
+
+                if (userModel1.getEmail().equals(userModel.getEmail())){
+                    status.setText(userModel1.getProfileStatus());
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }

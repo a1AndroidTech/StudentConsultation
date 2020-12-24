@@ -115,7 +115,7 @@
                 <Button
                 android:layout_width="100dp"
                 android:layout_height="30dp"
-                android:text="Disapprove"
+                android:text="Delete"
                 android:textColor="@color/black"
                 android:layout_gravity="center"
                 android:id="@+id/delate"

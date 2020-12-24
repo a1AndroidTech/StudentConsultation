@@ -97,6 +97,7 @@ public class MainActivityMessage extends AppCompatActivity {
 //    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     UserModel userModel;
+    String receiverID;
 
 
     @Override
@@ -112,6 +113,7 @@ public class MainActivityMessage extends AppCompatActivity {
 //        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
         mMessageDbReference = mFireDb.getReference().child("messages");
+        receiverID = getIntent().getStringExtra("receiverID");
 //        mStoreReference = mFireStorage.getReference().child("chatty_photos");
         // Initialize references to views
         mProgressBar = findViewById(R.id.progressBar);
@@ -120,35 +122,67 @@ public class MainActivityMessage extends AppCompatActivity {
         mMessageEditText = findViewById(R.id.messageEditText);
         mSendButton = findViewById(R.id.sendButton);
 
+        if (userModel.getUser_type() == 1){
+            mMessageDbReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    FriendlyMessage message = snapshot.getValue(FriendlyMessage.class);
+                    mMessageAdapter.add(message);
+                    mMessageAdapter.notifyDataSetChanged();
+                }
 
-        mMessageDbReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                FriendlyMessage message = snapshot.getValue(FriendlyMessage.class);
-                mMessageAdapter.add(message);
-                mMessageAdapter.notifyDataSetChanged();
-            }
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                }
 
-            }
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                }
 
-            }
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                }
 
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
 
-            }
-        });
+        }else {
+            mMessageDbReference.child(receiverID).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    FriendlyMessage message = snapshot.getValue(FriendlyMessage.class);
+                    mMessageAdapter.add(message);
+                    mMessageAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+        }
         // Initialize message ListView and its adapter
         final List<FriendlyMessage> friendlyMessages = new ArrayList<>();
         mMessageAdapter = new MessageAdapter(this, R.layout.item_message, friendlyMessages);
@@ -191,12 +225,27 @@ public class MainActivityMessage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: Send messages on click
-                FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), userModel.getName(), "sender", userModel.getUser_id(), "");
-                mMessageAdapter.add(friendlyMessage);
-                mMessageAdapter.notifyDataSetChanged();
-                mMessageDbReference.push().setValue(friendlyMessage);
-                // Clear input box
-                mMessageEditText.setText("");
+
+                if (SharedPrefrences.getUser(getApplicationContext()).getUser_type() == 1){
+                    FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), userModel.getName(), "1", userModel.getUser_id(), receiverID);
+//                    mMessageAdapter.add(friendlyMessage);
+                    mMessageAdapter = new MessageAdapter(MainActivityMessage.this, R.layout.item_message, friendlyMessages);
+                    mMessageListView.setAdapter(mMessageAdapter);
+                    mMessageAdapter.notifyDataSetChanged();
+                    mMessageDbReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push().setValue(friendlyMessage);
+                    // Clear input box
+                    mMessageEditText.setText("");
+                }else {
+                    FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), userModel.getName(), "2", userModel.getUser_id(), receiverID);
+//                    mMessageAdapter.add(friendlyMessage);
+                    mMessageAdapter = new MessageAdapter(MainActivityMessage.this, R.layout.item_message, friendlyMessages);
+                    mMessageListView.setAdapter(mMessageAdapter);
+                    mMessageAdapter.notifyDataSetChanged();
+                    mMessageDbReference.child(receiverID).push().setValue(friendlyMessage);
+                    // Clear input box
+                    mMessageEditText.setText("");
+                }
+
             }
         });
 //        mAuthStateListener = new FirebaseAuth.AuthStateListener() {

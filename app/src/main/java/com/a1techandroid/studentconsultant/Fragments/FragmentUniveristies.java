@@ -72,15 +72,15 @@ public class FragmentUniveristies extends Fragment {
     public void initView(View view) {
         listView = view.findViewById(R.id.listView);
         listofItems = new ArrayList<>();
-//        listofItems.add(new Uni_Model("Berlin School of Business and Innovation", "Germany", "12-03-2021", "3.5"));
-//        listofItems.add(new Uni_Model("IUBH University of Applied Sciences", "Germany", "10-01-2021", "3.5"));
-//        listofItems.add(new Uni_Model("Lancaster University Leipzign", "Germany", "12-12-2020", "3.0"));
-//        listofItems.add(new Uni_Model("University of Applied Sciences Europe", "England", "03-03-2021", "3.0"));
-//        listofItems.add(new Uni_Model("Arden University Berlin", "Germany", "12-07-2021", "2.5"));
-//        listofItems.add(new Uni_Model("Georg-August-Universität Göttingen", "Spain", "01-03-2021", "2.5"));
-//        listofItems.add(new Uni_Model("Berlin School of Business and Innovation", "Germany", "12-03-2021", "2.0"));
-//        listofItems.add(new Uni_Model("IUBH University of Applied Sciences", "Germany", "10-01-2021", "2.0"));
-//        listofItems.add(new Uni_Model("Lancaster University Leipzign", "Germany", "12-12-2020", "2.0 "));
+        listofItems.add(new Uni_Model("Berlin School of Business and Innovation", "Germany", "12-03-2021", "3.5"));
+        listofItems.add(new Uni_Model("IUBH University of Applied Sciences", "Germany", "10-01-2021", "3.5"));
+        listofItems.add(new Uni_Model("Lancaster University Leipzign", "Germany", "12-12-2020", "3.0"));
+        listofItems.add(new Uni_Model("University of Applied Sciences Europe", "England", "03-03-2021", "3.0"));
+        listofItems.add(new Uni_Model("Arden University Berlin", "Germany", "12-07-2021", "2.5"));
+        listofItems.add(new Uni_Model("Georg-August-Universität Göttingen", "Spain", "01-03-2021", "2.5"));
+        listofItems.add(new Uni_Model("Berlin School of Business and Innovation", "Germany", "12-03-2021", "2.0"));
+        listofItems.add(new Uni_Model("IUBH University of Applied Sciences", "Germany", "10-01-2021", "2.0"));
+        listofItems.add(new Uni_Model("Lancaster University Leipzign", "Germany", "12-12-2020", "2.0 "));
 //
 //        settingListAdapter = new Univeristy_adapter(getActivity(), listofItems);
 //        listView.setAdapter(settingListAdapter);

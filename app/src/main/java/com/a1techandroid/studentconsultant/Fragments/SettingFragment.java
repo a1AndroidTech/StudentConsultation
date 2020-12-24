@@ -49,7 +49,6 @@ public class SettingFragment extends Fragment {
         listofItems= new ArrayList<>();
 
         if (FirebaseAuth.getInstance().getCurrentUser().getEmail().equals("admin@gmail.com")){
-            listofItems.add("Add New Admin");
             listofItems.add("About");
             listofItems.add("Share");
             listofItems.add("Logout");
@@ -59,7 +58,6 @@ public class SettingFragment extends Fragment {
         }else {
 
             if (userModel.getUser_type() == 1){
-                listofItems.add("Update Profile");
                 listofItems.add("Reset Password");
                 listofItems.add("Rate this App");
                 listofItems.add("About");
@@ -70,7 +68,6 @@ public class SettingFragment extends Fragment {
                 settingListAdapter.notifyDataSetChanged();
             }else {
                 listofItems.add("Student List");
-                listofItems.add("Update Profile");
                 listofItems.add("Reset Password");
                 listofItems.add("Rate this App");
                 listofItems.add("About");

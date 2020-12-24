@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.a1techandroid.studentconsultant.MainActivity;
 import com.a1techandroid.studentconsultant.Models.ConsultantProfileModel;
 import com.a1techandroid.studentconsultant.Models.StudentProfileModel;
 import com.a1techandroid.studentconsultant.Models.UserModel;
@@ -56,6 +57,13 @@ public class ConsultantProfileMaking extends Fragment {
         userModel = SharedPrefrences.getUser(getActivity());
         initViews(view);
         setValues(userModel);
+
+        if (userModel.getProfileStatus().equals("pending")){
+            MainActivity.moreOption.setVisibility(View.GONE);
+        }else {
+            MainActivity.moreOption.setVisibility(View.GONE);
+
+        }
         return view;
     }
 
@@ -219,7 +227,7 @@ public class ConsultantProfileMaking extends Fragment {
         String speakingString = speaking.getText().toString();
         String wrtingString = writing.getText().toString();
         String pManagment = lastOne.getText().toString();
-        ConsultantProfileModel model = new ConsultantProfileModel(emailString,nameString,phoneString,cgpaString,ieltsScoreString,readingString,listeningString,speakingString,wrtingString,pManagment, "pending");
+        ConsultantProfileModel model = new ConsultantProfileModel(emailString,nameString,phoneString,cgpaString,ieltsScoreString,readingString,listeningString,speakingString,wrtingString,pManagment, "Submitted");
         return model;
     }
 
@@ -233,9 +241,9 @@ public class ConsultantProfileMaking extends Fragment {
                 for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
                     Map<String, Object> postValues = new HashMap<String,Object>();
                     String key = appleSnapshot.getRef().getKey();
-                    postValues.put("profileStatus", "Approved");
+                    postValues.put("profileStatus", "Submitted");
                     UserModel model = appleSnapshot.getValue(UserModel.class);
-                    model.setProfileStatus("Approved");
+                    model.setProfileStatus("Submitted");
                     mRefe.child(key).updateChildren(postValues);
                     SharedPrefrences.saveUSer(model, getActivity());
                     ConsultantProfileView fragment = new ConsultantProfileView();

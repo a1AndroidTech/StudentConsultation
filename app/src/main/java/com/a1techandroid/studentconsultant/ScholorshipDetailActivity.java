@@ -19,6 +19,7 @@ import com.a1techandroid.studentconsultant.Fragments.AttachmentFragment;
 import com.a1techandroid.studentconsultant.Models.RequestModel;
 import com.a1techandroid.studentconsultant.Models.Scholorship_model;
 import com.a1techandroid.studentconsultant.Models.Uni_Model;
+import com.a1techandroid.studentconsultant.Models.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.Serializable;
@@ -27,11 +28,13 @@ public class ScholorshipDetailActivity extends Fragment {
     TextView SName, UName, SType, SDate;
     CardView ApplyButton;
     Scholorship_model model;
+    UserModel userModel;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.scholrshipview, container, false);
         Bundle bundle = getArguments();
         model= (Scholorship_model) bundle.getSerializable("UniKey");
+        userModel = SharedPrefrences.getUser(getActivity());
         initViews(view);
         setUpClick();
 
@@ -56,7 +59,7 @@ public class ScholorshipDetailActivity extends Fragment {
         ApplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestModel requestModel = new RequestModel(SName.getText().toString(), UName.getText().toString(), SType.getText().toString(), SDate.getText().toString(),"", "", "", "", "", "", "", FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".",""), FirebaseAuth.getInstance().getCurrentUser().getUid());
+                RequestModel requestModel = new RequestModel(SName.getText().toString(), UName.getText().toString(), SType.getText().toString(), SDate.getText().toString(),"", "", "", "", "", "", "", userModel.getUser_id(), userModel.getEmail());
                 AttachmentFragment fragment=new AttachmentFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("key", (Serializable) requestModel);
