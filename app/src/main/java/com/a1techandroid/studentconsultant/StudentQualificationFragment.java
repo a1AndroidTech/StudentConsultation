@@ -174,13 +174,13 @@ public class StudentQualificationFragment extends Fragment {
         checkBox1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckBox checkBox1 = (CheckBox)v;
-                if(checkBox1.isChecked()){
-                    checkBox.setChecked(true);
-                    maBoard.setVisibility(View.VISIBLE);
+                CheckBox checkBox2 = (CheckBox)v;
+                if(checkBox2.isChecked()){
+                    checkBox1.setChecked(true);
+                    maCard.setVisibility(View.VISIBLE);
                 }else {
-                    checkBox.setChecked(false);
-                    maBoard.setVisibility(View.GONE);
+                    checkBox1.setChecked(false);
+                    maCard.setVisibility(View.GONE);
                 }
             }
         });

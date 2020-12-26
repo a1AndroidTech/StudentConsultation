@@ -58,7 +58,6 @@ public class SettingFragment extends Fragment {
         }else {
 
             if (userModel.getUser_type() == 1){
-                listofItems.add("Reset Password");
                 listofItems.add("Rate this App");
                 listofItems.add("About");
                 listofItems.add("Share");
@@ -68,7 +67,6 @@ public class SettingFragment extends Fragment {
                 settingListAdapter.notifyDataSetChanged();
             }else {
                 listofItems.add("Student List");
-                listofItems.add("Reset Password");
                 listofItems.add("Rate this App");
                 listofItems.add("About");
                 listofItems.add("Share");
