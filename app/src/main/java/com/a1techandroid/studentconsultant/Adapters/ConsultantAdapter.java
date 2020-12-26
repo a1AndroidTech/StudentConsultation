@@ -90,7 +90,7 @@ public class ConsultantAdapter extends BaseAdapter {
         holder.phone.setText(model.getPhone());
         holder.email.setText(model.getEmail());
         if (model.getProfileStatus() != null){
-            if (model.getProfileStatus().equals("submitted") ){
+            if (model.getProfileStatus().trim().equals("Submitted") ){
                 holder.approve.setVisibility(View.VISIBLE);
                 holder.delete.setVisibility(View.GONE);
             }else {
@@ -120,7 +120,7 @@ public class ConsultantAdapter extends BaseAdapter {
                                 list.remove(model);
                             notifyDataSetChanged();
 //                            ordersLists.remove(order);
-                            Toast.makeText(context, "Dissaproved", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
 //                            notifyDataSetChanged();
                         }
                     }

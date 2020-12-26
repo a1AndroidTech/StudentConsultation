@@ -117,7 +117,7 @@ public class AdminSideAdapter extends BaseAdapter {
                             list.remove(model);
                             notifyDataSetChanged();
 //                            ordersLists.remove(order);
-                            Toast.makeText(context, "Dissaproved", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
 //                            notifyDataSetChanged();
                         }
                     }

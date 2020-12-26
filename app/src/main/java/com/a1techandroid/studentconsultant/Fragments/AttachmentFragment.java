@@ -245,9 +245,9 @@ public class AttachmentFragment extends Fragment {
                     mProgressDialog.hide();
                     Map<String, Object> postValues = new HashMap<String,Object>();
                     String key = appleSnapshot.getRef().getKey();
-                    postValues.put("profileStatus", "Approved");
+                    postValues.put("profileStatus", "Submitted");
                     UserModel model = appleSnapshot.getValue(UserModel.class);
-                    model.setProfileStatus("Approved");
+                    model.setProfileStatus("Submitted");
                     reference.child(key).updateChildren(postValues);
                     SharedPrefrences.saveUSer(model, getActivity());
                     StudentViewFragment fragment = new StudentViewFragment();

@@ -65,11 +65,12 @@ public class FragmentConsultants extends Fragment {
         mProgressDialog.setTitle("Getting Consultants");
         mProgressDialog.setMessage("please wait...");
         mProgressDialog.show();
-        listofItems  =new ArrayList<>();
+
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listofItems  =new ArrayList<>();
                 for (DataSnapshot data : snapshot.getChildren()){
                     UserModel uni_model=data.getValue(UserModel.class);
 ////                officers.setUid(snapshot.getKey());
