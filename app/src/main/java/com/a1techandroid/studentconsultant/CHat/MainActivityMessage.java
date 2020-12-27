@@ -229,18 +229,18 @@ public class MainActivityMessage extends AppCompatActivity {
                 if (SharedPrefrences.getUser(getApplicationContext()).getUser_type() == 1){
                     FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), userModel.getName(), "1", userModel.getUser_id(), receiverID);
 //                    mMessageAdapter.add(friendlyMessage);
-                    mMessageAdapter = new MessageAdapter(MainActivityMessage.this, R.layout.item_message, friendlyMessages);
-                    mMessageListView.setAdapter(mMessageAdapter);
-                    mMessageAdapter.notifyDataSetChanged();
+//                    mMessageAdapter = new MessageAdapter(MainActivityMessage.this, R.layout.item_message, friendlyMessages);
+//                    mMessageListView.setAdapter(mMessageAdapter);
+//                    mMessageAdapter.notifyDataSetChanged();
                     mMessageDbReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push().setValue(friendlyMessage);
                     // Clear input box
                     mMessageEditText.setText("");
                 }else {
                     FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), userModel.getName(), "2", userModel.getUser_id(), receiverID);
 //                    mMessageAdapter.add(friendlyMessage);
-                    mMessageAdapter = new MessageAdapter(MainActivityMessage.this, R.layout.item_message, friendlyMessages);
-                    mMessageListView.setAdapter(mMessageAdapter);
-                    mMessageAdapter.notifyDataSetChanged();
+//                    mMessageAdapter = new MessageAdapter(MainActivityMessage.this, R.layout.item_message, friendlyMessages);
+//                    mMessageListView.setAdapter(mMessageAdapter);
+//                    mMessageAdapter.notifyDataSetChanged();
                     mMessageDbReference.child(receiverID).push().setValue(friendlyMessage);
                     // Clear input box
                     mMessageEditText.setText("");
